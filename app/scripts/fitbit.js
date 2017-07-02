@@ -20,7 +20,6 @@ if (isLocal) {
         );
 
         fitbitAccessToken = fragmentQueryParameters.access_token;
-        console.log(fitbitAccessToken);
     }
 }
 
