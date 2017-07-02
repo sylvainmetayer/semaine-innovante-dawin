@@ -18,6 +18,8 @@ OU
 
 - `npm install`
 
+- `npm install -g gulp-cli`
+
 ## Gulp tasks
 
 - `gulp deploy` : Will deploy to the github page repo
