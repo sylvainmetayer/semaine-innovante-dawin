@@ -25,14 +25,14 @@
 
 <textarea cols="500" id="url_api">https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/13:00/13:01.json</textarea><button id="sub">Get</button>
 
-<pre id="result"></pre>
-
 <script type="text/javascript">
     $('#sub').click(function() {
         var url = $('#url_api').val();
         getData(url);
     });
 </script>
+
+<pre id="result"></pre>
 
 </body>
 </html>
