@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/styleRuffier.css">
     <!-- endbuild -->
 
     <!-- build:js scripts/jquery.js -->
@@ -50,19 +50,32 @@
 </div>
 
 <script type="text/javascript">
-    var validation1 = $('validate1');
-    startButton.click(function(){
+    var shallContinue = true;
+
+    $('#endExercise').click(function(){
+        shallContinue = false;
+    })
+
+    $('#validate1').click(function(){
         $('#cardiacRythmAtStart').hide();
         $('#testRuffier').show();
         $('#actualTest').hide();
 
         setInterval(function(){
-            var timer = $('#timer');
-            timer.val() = timer.val() - 1;
-            alert('Prout');
-            if(timer.val == 0){
+            var timer = $('#timerBeforeStart');
+            var timerValue = parseInt(timer.text());
+            timer.text(timerValue - 1);
+            if(timerValue == 0){
+                clearInterval();
+                var startTime = new Date().getTime();
                 $('#countDown1').hide();
                 $('#actualTest').show();
+                setInterval(function(){
+                    var actualTime = new Date().getTime();
+                    $('#testTimer').text(Math.floor((actualTime - startTime)/1000));
+                    if(!shallContinue)
+                        clearInterval();
+                }, 1000)
             }
         }, 1000);
     })
@@ -70,14 +83,13 @@
 
 <div id="testRuffier">
     <div id="countDown1">
-        <h2>Préparez vous, le test commencera dans </h2>
-        <h2 id="timer">10</h2>
-        <h2> secondes</h2>
+        <h2>Réalisez 9999 pompes en 45 secondes. Appuyez sur le bouton une fois terminé.</h2>
+        <h2>Préparez vous, le test commencera dans <a id="timerBeforeStart">1</a> secondes</h2>
     </div>
     <div id="actualTest">
-        <div id="countDown2">
-            
-        </div>
+        <h2>Réalisez 9999 pompes en 45 secondes. Appuyez sur le bouton une fois terminé.</h2>
+        <h2>Votre temps actuel est de <a id="testTimer">0</a> secondes</h2>
+        <button id="endExercise">J'ai fini l'exercice</button>
     </div>
 </div>
 
