@@ -46,7 +46,7 @@ function syntaxHighlight(json) {
 }
 
 function output(inp) {
-    document.body.appendChild(document.createElement('pre')).innerHTML = inp;
+    $("#result").html(inp);
 }
 
 
@@ -70,17 +70,19 @@ let processHeartRate = function (jsonData) {
     output(syntaxHighlight(jsonData));
 };
 
-fetch(
-    'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/13:00/13:01.json',
-    {
-        headers: new Headers({
-            'Authorization': 'Bearer ' + fitbitAccessToken
-        }),
-        mode: 'cors',
-        method: 'GET'
-    }
-).then(processResponse)
-    .then(processHeartRate)
-    .catch(function (error) {
-        console.log(error);
-    });
+
+function getData(url){
+    console.log(url);
+    fetch(url,{
+            headers: new Headers({
+                'Authorization': 'Bearer ' + fitbitAccessToken
+            }),
+            mode: 'cors',
+            method: 'GET'
+        }
+    ).then(processResponse)
+        .then(processHeartRate)
+        .catch(function (error) {
+            console.log(error);
+        });
+}
