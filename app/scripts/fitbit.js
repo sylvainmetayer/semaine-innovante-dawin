@@ -1,7 +1,7 @@
 // If user hasn't authed with Fitbit, redirect to Fitbit OAuth Implicit Grant Flow
 var fitbitAccessToken;
 
-var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTMwNTQ3NTgyLCJpYXQiOjE0OTkwMTE1ODJ9.mPjMJHRPcZFZBXb9kRRcZYqRR6jLf6uhIO18Rk_vUtE";
+var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTMwNjIwNzQ0LCJpYXQiOjE0OTkwODQ3NDR9.L52FyIUUojG9Dp10apBcY1FSLIZknJDkStpPaYfVkHw";
 
 var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
@@ -44,7 +44,7 @@ let processHeartRate = function (jsonData) {
 };
 
 fetch(
-    'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json',
+    'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/13:00/13:01.json',
     {
         headers: new Headers({
             'Authorization': 'Bearer ' + fitbitAccessToken
