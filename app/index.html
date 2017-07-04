@@ -1,47 +1,232 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>Fitbit</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DAWIN & FitBit</title>
 
-    <!-- build:css styles/main.css -->
+    <!-- build:css styles/index.css -->
     <link rel="stylesheet" href="styles/style.css">
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/stylish-portfolio.css" rel="stylesheet">
+    <link href="styles/round-about.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- endbuild -->
 
-    <!-- build:js scripts/jquery.js -->
-    <script src="scripts/jquery.js"></script>
-    <!-- endbuild -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
+          rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amita" rel="stylesheet">
 
-    <!-- build:js scripts/main.js -->
-    <script src="scripts/fitbit.js"></script>
-    <!-- endbuild -->
-
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>google.charts.load('current', {'packages': ['line']});</script>
 
 </head>
+
 <body>
 
-<p id="test_res"></p>
-<textarea cols="500" id="url_api">https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/13:00/13:01.json</textarea>
-<button id="sub">Get</button>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">FitBit & DAWIN</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="#about">A propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Notre équipe</a></li>
+            <li><a href="start.html">Passez le test !</a></li>
+        </ul>
+    </div>
+</nav>
 
-<button id="test">Get my user id</button>
+<!-- Header -->
+<header id="top" class="bg-primary header">
+    <div class="text-vertical-center">
+        <h1 class="title-font">Dawin & Fitbit</h1>
+        <h3 class="girl-next-door"> Un projet innovant unique</h3>
+        <br>
+        <p class="lead"> Projet issus de la semaine innovante des étudiants en Licence Professionnelle DAWIN,<br> Dawin
+            & Fitbit
+            a pour but d'aider les personnes possédant un appareil Charge 2, <br>
+            un bracelet connecté de la marque Fitbit© à effectuer le test de Ruffier. </p>
+        <a href="#about" class="btn btn-dark btn-lg">En savoir plus</a>
+    </div>
+</header>
 
+<!-- About -->
+<section id="about" class="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2> Le test de Ruffier, késako ?</h2>
+                <p class="lead"> Le test de Ruffier est un test physique qui permet d'évaluer l'aptitude d'une personne
+                    à la pratique sportive. Ce test est généralement effectué sous le contrôle d'un médecin durant un
+                    examen
+                    médical en vue d'obtenir un certificat de non contre-indication à la pratique sportive.</p>
 
-<script type="text/javascript">
-    $('#sub').click(function () {
-        var url = $('#url_api').val();
-        getData(url);
-    });
+                <h2> Le déroulement du test</h2>
+                <p class="lead"> Le test de Ruffier est un test qui se déroule en trois parties :</p>
+                <ul>
+                    <li><p class="lead-p"> Le pouls du patient est mesuré après un repos (assis ou allongé) de plusiers
+                        minutes, afin d'avoir une valeur du
+                        rythme cardiaque au repos en pulsations par minutes. </p></li>
+                    <li><p class="lead-p"> Après la mesure initiale, le patient va ensuite se lever et effectuer <b>30
+                        flexions complète (en 45 secondes ou plus)</b>,
+                        bras tendus devant lui. Quelques secondes après la fin de l'effort, le pouls du patient est de
+                        nouveau pris.</p></li>
+                    <li><p class="lead-p"> Le sujet s'allonge à nouveau (ou se rassois), et au bout d'une minutes,
+                        son pouls est repris. Les calculs peuvent alors commencer. </p></li>
+                </ul>
 
-    $("#test").click(function () {
-        getFitbitProfileId();
-    })
-</script>
+                <h2> Et ensuite ?</h2>
+                <p class="lead"> Le test de Ruffier permet de calculer l'indice de Ruffier qui est : <br><br>
+                    <i>Index de Ruffier = (P1 + P2 + P3 - 200) / 10 </i> <br>
+                </p>
+                <p class="lead"> Basé sur le même test, une formule différente existe pour calculer le niveau de forme
+                    physique:
+                    celle de l'indice de Ruffier-Dickson : <br><br>
+                    <i> Index de Ruffier-Dickson = (P1 - 70 + (2 x (P2 - P0))) / 10</i></p>
 
-<pre id="result"></pre>
+                <p class="lead"> Une fois le test de Ruffier passé, un score vous sera attribué en fonction de vos
+                    résultats. <br>
+                    Plus d'informations vous sera fournis à ce moment là.</p>
+
+                <a href="start.html" class="btn btn-dark btn-lg">Passer notre test de Ruffier</a>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+</section>
+
+<!-- Services -->
+<!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
+<section id="services" class="services bg-primary">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-10 col-lg-offset-1">
+                <h2>Fitbit & Dawin, au coeur de votre santé</h2>
+                <hr class="small">
+                <p> Crée en 2007, Fitbit© se consacre à la forme et à la santé et conçoit des produits permettant
+                    d'améliorer la vie des gens, en les aidant à suivre leur activité physique et à devenir plus actifs
+                    au quotidien.</p>
+                <p> Basé sur le besoin d'aider les personnes à suivre leur santé, nous vous proposons la solution
+                    suivante :</p>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-user fa-stack-1x text-primary"></i>
+                            </span>
+                            <h4>
+                                <strong>Un espace membre personnalisé</strong>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-heartbeat fa-stack-1x text-primary"></i>
+                            </span>
+                            <h4>
+                                <strong>Données depuis votre wearable</strong>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-line-chart fa-stack-1x text-primary"></i>
+                            </span>
+                            <h4>
+                                <strong>Un accès rapide à vos données</strong>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.col-lg-10 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+</section>
+
+<!-- Callout -->
+<aside class="callout">
+    <div class="text-vertical-center title-font ">
+        <h1>Il n'est pas de plus grand bonheur
+            <br>que d'être en parfaite santé.</h1>
+    </div>
+</aside>
+
+<section id="team" class="portfolio">
+    <div class="container">
+
+        <!-- Introduction Row -->
+        <div class="col-lg-10 col-lg-offset-1 text-center">
+            <h2>Notre équipe</h2> <br><br>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+            </div>
+            <div class="col-lg-3 col-sm-6 text-center">
+                <img class="img-circle img-responsive img-center" src="img/PolC.jpg" alt="">
+                <h3>Pol Chambost
+                    <!-- <small>Job Title</small> -->
+                </h3>
+                <p>
+                    <a href="https://github.com/Lightslash"> <i class="fa fa-github fa-3x"></i></a>
+                </p>
+
+            </div>
+            <div class="col-lg-3 col-sm-6 text-center">
+                <img class="img-circle img-responsive img-center" src="img/RomainD.jpeg" alt="">
+                <h3>Romain Durade
+                </h3>
+                <p>
+                    <a href="https://github.com/oRiamn"> <i class="fa fa-github fa-3x"></i></a>
+                </p>
+
+            </div>
+            <div class="col-lg-3 col-sm-6 text-center">
+                <img class="img-circle img-responsive img-center" src="img/TiphaineG.jpeg" alt="">
+                <h3>Tiphaine Giradot </h3>
+                <p>
+                    <a href="https://github.com/tgrdt"> <i class="fa fa-github fa-3x"></i></a>
+                    <a href="https://twitter.com/T_Grdt"> <i class="fa fa-twitter fa-3x"></i></a>
+                </p>
+            </div>
+            <div class="col-lg-3 col-sm-6 text-center">
+                <img class="img-circle img-responsive img-center" src="img/SylvainM.jpg" alt="">
+                <h3> Sylvain Metayer</h3>
+                <p>
+                    <a href="https://github.com/sylvainmetayer"> <i class="fa fa-github fa-3x"></i></a>
+                    <a href="https://twitter.com/sylvain_metayer"> <i class="fa fa-twitter fa-3x"></i></a>
+                </p>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+</section>
+
+<!-- build:js scripts/main.js -->
+<script src="scripts/jquery.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/index.js -->
+<script src="scripts/index.js"></script>
+<!-- endbuild -->
+
 
 </body>
 </html>

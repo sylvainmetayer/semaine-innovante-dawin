@@ -27,12 +27,23 @@ gulp.task('scripts', () => {
         .pipe(reload({stream: true}));
 });
 
+gulp.task("api", () => {
+    return gulp.src("app/api/**/*").pipe(gulp.dest("dist/api"));
+});
+
 gulp.task("extras", () => {
-    return gulp.src(["./app/robots.txt"])
+    return gulp.src(["./app/robots.txt", "./app/config.json"])
         .pipe(gulp.dest("dist/"));
 });
 
 gulp.task('html', ['styles', 'scripts'], () => {
+    gulp.src("app/start.html")
+        .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+        .pipe($.if('*.js', $.uglify()))
+        .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
+        .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+        .pipe(gulp.dest("dist"));
+
     return gulp.src('app/index.html')
         .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
         .pipe($.if('*.js', $.uglify()))
@@ -79,7 +90,7 @@ gulp.task('serve:dist', ['default'], () => {
     });
 });
 
-gulp.task('build', ['html', 'images', "extras"], () => {
+gulp.task('build', ['html', 'images', "extras", "api"], () => {
     return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

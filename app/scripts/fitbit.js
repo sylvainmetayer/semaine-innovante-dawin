@@ -1,30 +1,6 @@
-// If user hasn't authed with Fitbit, redirect to Fitbit OAuth Implicit Grant Flow
-var fitbitAccessToken;
-
-var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTMwNzEwNzQxLCJpYXQiOjE0OTkxODExOTJ9.u_H4JFHmFaPa7EyUBbZFOWW2BqIkPhlpNPy5Duy6FnA";
-
-var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-
-if (isLocal) {
-    fitbitAccessToken = dev_token;
-} else {
-    if (!window.location.hash) {
-        window.location.replace('https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=228FYH&redirect_uri=https%3A%2F%2Fdawin.sylvainmetayer.fr%2F&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight');
-    } else {
-        var fragmentQueryParameters = {};
-        window.location.hash.slice(1).replace(
-            new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-            function ($0, $1, $2, $3) {
-                fragmentQueryParameters[$1] = $3;
-            }
-        );
-
-        fitbitAccessToken = fragmentQueryParameters.access_token;
-    }
-}
-
+// DEV
 function syntaxHighlight(json) {
-    if (typeof json != 'string') {
+    if (typeof json !== 'string') {
         json = JSON.stringify(json, undefined, 2);
     }
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -45,41 +21,47 @@ function syntaxHighlight(json) {
     });
 }
 
-function output(inp) {
-    $("#result").html(inp);
-}
-
-// Make an API request and graph it
-let processResponse = function (res) {
-    if (!res.ok) {
-        console.log(res);
-        throw new Error('Fitbit API request failed: ' + res);
-    }
-
-    let contentType = res.headers.get('content-type');
-    if (contentType && contentType.indexOf("application/json") !== -1) {
-        return res.json();
-    } else {
-        throw new Error('JSON expected but received ' + contentType);
-    }
-};
-
-let processHeartRate = function (jsonData) {
-    console.log(jsonData);
-    output(syntaxHighlight(jsonData));
-};
-
-
 function getData(url) {
     console.log(url);
-    getFitbitData(url).then(processResponse)
-        .then(processHeartRate)
-        .catch(function (error) {
-            console.log(error);
-        });
+    queryFitBit(url, "GET", fitbitAccessToken, _callbackLogData);
 }
 
-function queryFitbit(url, type = "GET", token, callback) {
+function _callbackLogData(jsonData) {
+    console.log(jsonData);
+    $("#result").html(syntaxHighlight(jsonData));
+}
+
+// END DEV
+
+function authenticateUser() {
+    if (cfg.localhost) {
+        fitbitAccessToken = cfg.dev_token;
+    } else {
+        if (!window.location.hash) {
+            alert("First, you need to connect your FitBit account");
+            // TODO Replace this alert with a modal window
+            window.location.replace(cfg.auth_url);
+        } else {
+            var fragmentQueryParameters = {};
+            window.location.hash.slice(1).replace(
+                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                function ($0, $1, $2, $3) {
+                    fragmentQueryParameters[$1] = $3;
+                }
+            );
+
+            fitbitAccessToken = fragmentQueryParameters.access_token;
+        }
+    }
+    getFitbitProfileId();
+}
+
+function getFitbitProfileId() {
+    const url = cfg.base_url + "1/user/-/profile.json";
+    queryFitBit(url, "GET", fitbitAccessToken, _callbackProfileID);
+}
+
+function queryFitBit(url, type = "GET", token, callback) {
     $.ajax({
         type: type,
         beforeSend: function (request) {
@@ -87,31 +69,29 @@ function queryFitbit(url, type = "GET", token, callback) {
         },
         crossDomain: true,
         url: url,
-        dataType: "json",
-        success: callback
+        dataType: "json"
+    }).done(callback).fail(function (err) {
+        console.log(err);
     })
 }
 
-function getFitbitData(url) {
-    return fetch(url, {
-            headers: new Headers({
-                'Authorization': 'Bearer ' + fitbitAccessToken
-            }),
-            mode: 'cors',
-            method: 'GET'
-        }
-    );
+function _callbackProfileID(data) {
+    cfg.user_id = data.user.encodedId;
+    // TODO Call API to set up session user id
 }
 
-var a = "";
+var fitbitAccessToken;
 
-function getProfileId(data) {
-    var id = data.user.encodedId;
-    // TODO Call API to set up session user id.
-    $("#test_res").html(id);
-}
-
-function getFitbitProfileId() {
-    const url = "https://api.fitbit.com/1/user/-/profile.json";
-    queryFitbit(url, "GET", fitbitAccessToken, getProfileId);
-}
+var cfg = {};
+const config_url = "/config.json";
+$.ajax({
+    url: config_url,
+    dataType: "json",
+    success: function (data) {
+        cfg = data;
+        API.url = cfg.base_api_url;
+        authenticateUser();
+        if (cfg.localhost)
+            $("#url_api").val(cfg.dev_default_query);
+    }
+});

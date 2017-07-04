@@ -20,7 +20,17 @@ OU
 
 - `npm install -g gulp-cli`
 
-## Gulp tasks
+## Setup config file
+
+- cp app/config.json/sample app/config.json
+
+# How to run develop mode ?
+
+- On two separate terminal, run the following commands :
+    - `gulp serve`
+    - `php -S localhost:8080 -t app/api/`
+
+# Gulp tasks
 
 - `gulp deploy` : Will deploy to the github page repo
 
