@@ -9,43 +9,37 @@
     <link rel="stylesheet" href="styles/style.css">
     <!-- endbuild -->
 
-    <!-- build:js scripts/jquery.js -->
-    <script src="scripts/jquery.js"></script>
-    <!-- endbuild -->
-
     <!-- build:js scripts/main.js -->
+    <script src="scripts/jquery.js"></script>
     <script src="scripts/fitbit.js"></script>
-    <!-- endbuild -->
-    
     <script src="scripts/api.js"></script>
-    
-
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>google.charts.load('current', {'packages': ['line']});</script>
+    <!-- endbuild -->
 
 </head>
 <body>
 
-    <textarea cols="100" rows="20" id="form">{ 
-    "name":"John", 
-    "age":30, 
-    "city":"New York"
-    }</textarea><button id="sub">Get</button>
+<textarea cols="100" rows="20" id="form">{
+    "id_user_fitbit":"id_user_fitbit",
+    "first_hr": 100,
+    "date": "04-07-2017 23:35",
+    "second_hr": 20,
+    "third_hr": 40
+    }</textarea>
+<button id="sub">Get</button>
 
-    <pre id="result"></pre>
+<pre id="result"></pre>
 
-    <script type="text/javascript">
-        $('#sub').click(function () {
-            API.url = 'http://localhost:8080/index.php';
+<script type="text/javascript">
+    $('#sub').click(function () {
+        API.url = 'http://localhost:8080/index.php';
 
-            var form =  JSON.parse($('#form').val());
+        var form = JSON.parse($('#form').val());
+        var q = API.request("result", "insertResult").form(form);
 
-            var q = API.request("test", "showrequest").form(form);
-
-            q.send(function (json) {
-                output(syntaxHighlight(json));
-            });
+        q.send(function (json) {
+            $("#result").html(syntaxHighlight(json));
         });
-    </script>
+    });
+</script>
 </body>
 </html>

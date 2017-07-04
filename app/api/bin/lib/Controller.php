@@ -10,9 +10,11 @@ abstract class Controller
 	private $response;
 
 	private $post;
+	private $db;
 
-	public function __construct($post) {
+	public function __construct($post, $db) {
 		$this->post = $post;
+		$this->db = $db;
 		$response = [];
 	}
 
@@ -33,4 +35,20 @@ abstract class Controller
 	public function getResponse() {
 		return $this->response;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDb()
+    {
+        return $this->db;
+    }
 }

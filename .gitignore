@@ -4,3 +4,4 @@
 /.idea/
 /.publish/
 /app/config\.json
+/app/api/config\.inc\.php
