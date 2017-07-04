@@ -2,12 +2,10 @@
 
 namespace controller;
 
-use \entity\user;
-
 /**
 * Controlleur de connection
 */
-class auth_controller extends \lib\Controller
+class test_controller extends \lib\Controller
 {
 	private $user;
 	
@@ -21,7 +19,7 @@ class auth_controller extends \lib\Controller
 		return $this->$action();
 	}
 
-	public function login() {
-		return ['login' => 'test'];
+	public function showrequest() {
+		return $_POST;
 	}
 }

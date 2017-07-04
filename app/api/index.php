@@ -1,5 +1,8 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");    
+header('Content-Type: application/json');
+
 function __autoload($className) {
 
 		$className =  str_replace('\\', '/', $className);
@@ -8,6 +11,7 @@ function __autoload($className) {
 
 
 if(!empty($_GET['controller']) && !empty($_GET['action'])) {
+	
 	$controllers = ['auth','sign_up'];
 
 	if(in_array($_GET['controller'], $controllers)) {
@@ -22,10 +26,14 @@ if(!empty($_GET['controller']) && !empty($_GET['action'])) {
 			$datas = $controller->get404();
 		}
 
-		print json_encode($datas);
-
-		die();
+		
+	} else {
+		$datas = ["error" => 404, "message" => "no controller"];
 	}
+
+	print json_encode($datas);
 }
+
+die();
 
 
