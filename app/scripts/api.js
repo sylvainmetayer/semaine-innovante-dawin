@@ -45,6 +45,7 @@ var API = API || {};
 	function request(callback, post, get) {
 		var xhr = getXMLHttpRequest();
 
+
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 				callback(xhr.responseText);
@@ -52,6 +53,9 @@ var API = API || {};
 		};
 
 		xhr.open("POST", self.url + "?" + stringify(get), true);
+
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		
 		xhr.send(stringify(post));
 	}
 

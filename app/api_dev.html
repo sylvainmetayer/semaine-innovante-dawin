@@ -35,7 +35,7 @@
         $('#sub').click(function () {
             API.url = 'http://localhost:8080/index.php';
             var q = API.request("test", "showrequest").form({
-                test: $('#sub').val(),
+                test: "machin",
                 password: "mdp"
             }).send(function (json) {
                 output(syntaxHighlight(json));

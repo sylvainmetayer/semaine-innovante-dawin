@@ -12,7 +12,7 @@ function __autoload($className) {
 
 if(!empty($_GET['controller']) && !empty($_GET['action'])) {
 	
-	$controllers = ['auth','sign_up'];
+	$controllers = ['test','auth','sign_up'];
 
 	if(in_array($_GET['controller'], $controllers)) {
 

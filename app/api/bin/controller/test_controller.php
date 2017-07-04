@@ -11,8 +11,6 @@ class test_controller extends \lib\Controller
 	
 	public function __construct($post) {
 		parent::__construct($post);
-
-		$this->user = new user();
 	}
 
 	public function run($action) {
