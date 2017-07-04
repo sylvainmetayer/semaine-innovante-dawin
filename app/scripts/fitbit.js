@@ -83,7 +83,7 @@ function _callbackProfileID(data) {
 var fitbitAccessToken;
 
 var cfg = {};
-const config_url = "/config.json";
+const config_url = location.protocol + '//' + location.host + "/config.json";
 $.ajax({
     url: config_url,
     dataType: "json",
