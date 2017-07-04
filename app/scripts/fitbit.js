@@ -1,7 +1,7 @@
 // If user hasn't authed with Fitbit, redirect to Fitbit OAuth Implicit Grant Flow
 var fitbitAccessToken;
 
-var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNDk5MjU4NjAwLCJpYXQiOjE0OTkxNzIyMDB9._ewTO1lF6bhhDoj6u6znXG7Cr1_j_ItHe6kbdeEFV-Q";
+var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTMwNzEwNzQxLCJpYXQiOjE0OTkxODExOTJ9.u_H4JFHmFaPa7EyUBbZFOWW2BqIkPhlpNPy5Duy6FnA";
 
 var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
@@ -49,7 +49,6 @@ function output(inp) {
     $("#result").html(inp);
 }
 
-
 // Make an API request and graph it
 let processResponse = function (res) {
     if (!res.ok) {
@@ -73,16 +72,46 @@ let processHeartRate = function (jsonData) {
 
 function getData(url) {
     console.log(url);
-    fetch(url, {
+    getFitbitData(url).then(processResponse)
+        .then(processHeartRate)
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function queryFitbit(url, type = "GET", token, callback) {
+    $.ajax({
+        type: type,
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", 'Bearer ' + token);
+        },
+        crossDomain: true,
+        url: url,
+        dataType: "json",
+        success: callback
+    })
+}
+
+function getFitbitData(url) {
+    return fetch(url, {
             headers: new Headers({
                 'Authorization': 'Bearer ' + fitbitAccessToken
             }),
             mode: 'cors',
             method: 'GET'
         }
-    ).then(processResponse)
-        .then(processHeartRate)
-        .catch(function (error) {
-            console.log(error);
-        });
+    );
+}
+
+var a = "";
+
+function getProfileId(data) {
+    var id = data.user.encodedId;
+    // TODO Call API to set up session user id.
+    $("#test_res").html(id);
+}
+
+function getFitbitProfileId() {
+    const url = "https://api.fitbit.com/1/user/-/profile.json";
+    queryFitbit(url, "GET", fitbitAccessToken, getProfileId);
 }
