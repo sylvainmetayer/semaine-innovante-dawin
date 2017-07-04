@@ -26,18 +26,23 @@
 </head>
 <body>
 
-    <textarea cols="500" id="url_api">https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/13:00/13:01.json</textarea><button id="sub">Get</button>
+    <textarea cols="100" rows="20" id="form">{ 
+    "name":"John", 
+    "age":30, 
+    "city":"New York"
+    }</textarea><button id="sub">Get</button>
 
     <pre id="result"></pre>
 
     <script type="text/javascript">
-
         $('#sub').click(function () {
             API.url = 'http://localhost:8080/index.php';
-            var q = API.request("test", "showrequest").form({
-                test: "machin",
-                password: "mdp"
-            }).send(function (json) {
+
+            var form =  JSON.parse($('#form').val());
+
+            var q = API.request("test", "showrequest").form(form);
+
+            q.send(function (json) {
                 output(syntaxHighlight(json));
             });
         });
