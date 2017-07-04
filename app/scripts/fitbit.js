@@ -1,7 +1,7 @@
 // If user hasn't authed with Fitbit, redirect to Fitbit OAuth Implicit Grant Flow
 var fitbitAccessToken;
 
-var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTMwNjIwNzQ0LCJpYXQiOjE0OTkwODQ3NDR9.L52FyIUUojG9Dp10apBcY1FSLIZknJDkStpPaYfVkHw";
+var dev_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDc1UzgiLCJhdWQiOiIyMjhGWUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNDk5MjU4NjAwLCJpYXQiOjE0OTkxNzIyMDB9._ewTO1lF6bhhDoj6u6znXG7Cr1_j_ItHe6kbdeEFV-Q";
 
 var isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
@@ -9,7 +9,7 @@ if (isLocal) {
     fitbitAccessToken = dev_token;
 } else {
     if (!window.location.hash) {
-        window.location.replace('https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=228FYH&redirect_uri=https%3A%2F%2Fsylvainmetayer.github.io%2Fsemaine-innovante-dawin%2F&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight');
+        window.location.replace('https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=228FYH&redirect_uri=https%3A%2F%2Fdawin.sylvainmetayer.fr%2F&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight');
     } else {
         var fragmentQueryParameters = {};
         window.location.hash.slice(1).replace(
@@ -25,7 +25,7 @@ if (isLocal) {
 
 function syntaxHighlight(json) {
     if (typeof json != 'string') {
-         json = JSON.stringify(json, undefined, 2);
+        json = JSON.stringify(json, undefined, 2);
     }
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
@@ -71,9 +71,9 @@ let processHeartRate = function (jsonData) {
 };
 
 
-function getData(url){
+function getData(url) {
     console.log(url);
-    fetch(url,{
+    fetch(url, {
             headers: new Headers({
                 'Authorization': 'Bearer ' + fitbitAccessToken
             }),
