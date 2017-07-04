@@ -180,6 +180,17 @@ hr.small {
     padding: 50px 0;
 }
 
+.lead-p
+{
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+ul {
+    list-style: none;
+}
 /* Services */
 
 .services {
