@@ -7,25 +7,40 @@
 
     <!-- build:css styles/start.css -->
     <link rel="stylesheet" href="styles/styleRuffier.css">
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/stylish-portfolio.css" rel="stylesheet">
+    <link href="styles/round-about.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- endbuild -->
 
 </head>
 <body>
 
-<button id="startRuffier">Commencer le test de Ruffier</button>
+<!-- Header -->
+<header id="top" class="bg-primary header-2">
+    <div class="text-vertical-center">
+        <h1 class="title-font" id="title-test">Prêt ?</h1>
+        <button id="startRuffier" class="btn btn-dark btn-lg">Commencer le test de Ruffier</button>
+
+    </div>
+
+
+
 
 <div id="testRuffier">
     <div id="countDown1">
-        <h2>Réalisez 9999 pompes en 45 secondes. Appuyez sur le bouton une fois terminé.</h2>
+        <h2>Veuillez réaliser 30 flexions complètes, bras tendus, en 45 secondes. Appuyez sur le bouton une fois le test terminé.</h2>
         <h2>Préparez vous, le test commencera dans <a id="timerBeforeStart">1</a> secondes</h2>
     </div>
     <div id="actualTest">
-        <h2>Réalisez 9999 pompes en 45 secondes. Appuyez sur le bouton une fois terminé.</h2>
+        <h2>Veuillez réaliser 30 flexions complètes, bras tendus, en 45 secondes. Appuyez sur le bouton une fois le test terminé.</h2>
         <h2>Votre temps actuel est de <a id="testTimer">0</a> secondes</h2>
         <button id="endExercise">J'ai fini l'exercice</button>
     </div>
     <div id="afterTest">
-        <h2>Veuillez patientez, nous réalisons les calculs avec votre rythme cardiaque. Les résultats seront disponibles environ 2 minutes après que ce message se soit affiché. Veuillez ne pas enlever votre appareil FitBit ou fermer cette page pendant cette durée.</h2>
+        <h2>Veuillez patienter, nous réalisons quelques calculs basés sur votre rythme cardiaque.<br>
+            Les résultats seront disponibles quelques minutes après que ce message se soit affiché.<br>
+            Veuillez ne pas retirer votre appareil FitBit ou fermer cette page pendant cette durée.</h2>
     </div>
 </div>
 

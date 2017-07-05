@@ -11,7 +11,8 @@ var exerciseInterval;
 
 startButton.click(function(){
     startButton.hide();
-    F0_date = new Date().getTime();
+    $('#title-test').hide();
+    F0_date = new Date().getDate();
     $('#cardiacRythmAtStart').hide();
     $('#testRuffier').show();
     $('#actualTest').hide();
