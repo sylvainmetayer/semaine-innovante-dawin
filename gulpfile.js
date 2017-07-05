@@ -31,6 +31,10 @@ gulp.task("api", () => {
     return gulp.src("app/api/**/*").pipe(gulp.dest("dist/api"));
 });
 
+gulp.task("font-awesome", () => {
+    return gulp.src("app/font-awesome/**/*").pipe(gulp.dest("dist/font-awesome"));
+});
+
 gulp.task("extras", () => {
     return gulp.src(["./app/robots.txt", "./app/config.json"])
         .pipe(gulp.dest("dist/"));
@@ -53,9 +57,9 @@ gulp.task('html', ['styles', 'scripts'], () => {
 });
 
 gulp.task('images', () => {
-    return gulp.src('app/images/**/*')
+    return gulp.src('app/img/**/*')
         .pipe($.cache($.imagemin()))
-        .pipe(gulp.dest('dist/images'));
+        .pipe(gulp.dest('dist/img'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
@@ -90,7 +94,7 @@ gulp.task('serve:dist', ['default'], () => {
     });
 });
 
-gulp.task('build', ['html', 'images', "extras", "api"], () => {
+gulp.task('build', ['html', 'images', "extras", "api", "font-awesome"], () => {
     return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
