@@ -16,6 +16,7 @@ startButton.click(function(){
     $('#cardiacRythmAtStart').hide();
     $('#testRuffier').show();
     $('#actualTest').hide();
+    $('#afterTest_1').hide();
 
     startInterval = setInterval(function(){
         var timer = $('#timerBeforeStart');
@@ -24,6 +25,7 @@ startButton.click(function(){
         if(timerValue == 0){
             var startTime = new Date().getTime();
             $('#countDown1').hide();
+            $('#title-begin-test').hide();
             $('#actualTest').show();
             exerciseInterval = setInterval(function(){
                 var actualTime = new Date().getTime();
@@ -33,6 +35,34 @@ startButton.click(function(){
     }, 1000);
 })
 
+
+$('#endExerciseTmp').click(function(){
+
+    clearInterval(startInterval);
+    clearInterval(exerciseInterval);
+    $('#actualTest').hide();
+    $('#afterTest').hide();
+    $('#afterTest_1').show();
+
+    var cpt = 0;
+    var getRequiredDateInterval = setInterval(function(){
+        cpt = cpt+1;
+        if(cpt == 15){
+            F1_date = new Date().getTime();
+
+        }
+        else if(cpt == 75){
+            F2_date = new Date().getTime();
+            $('#afterTest').show();
+            $('#afterTest_1').hide();
+
+        }
+        else if(cpt >= 76){
+            clearInterval(getRequiredDateInterval);
+        }
+    }, 1000)
+})
+/*
 $('#endExercise').click(function(){
     
     clearInterval(startInterval);
@@ -49,10 +79,10 @@ $('#endExercise').click(function(){
         }
         else if(cpt == 75){
             F2_date = new Date().getTime();
-          
+
         }
         else if(cpt >= 76){
             clearInterval(getRequiredDateInterval);
         }
     }, 1000) 
-})
+}) */
