@@ -16,7 +16,7 @@ $db = new PDO("mysql:host=" . $configs["db_host"] . "; dbname=" . $configs["db_n
 
 if (!empty($_GET['controller']) && !empty($_GET['action'])) {
 
-    $controllers = ['test', 'auth', 'result'];
+    $controllers = ['test', 'auth', 'result', 'email'];
 
     if (in_array($_GET['controller'], $controllers)) {
 
