@@ -27,7 +27,7 @@ function getFitbitProfileId() {
 }
 
 function getHR_atDate(hour, variable) {
-    var str_hour = parseInt(hour.split(":")[0]);
+    var str_hour = parseInt(hour.split(":")[0]) - 1; //FIXME As their is no real data at the H hour, we take H-1
     var str_hour_next = str_hour;
     var str_min = parseInt(hour.split(":")[1]);
     var str_min_next = str_min + 1;
@@ -106,7 +106,8 @@ $.ajax({
         cfg = data;
         API.url = cfg.base_api_url;
         authenticateUser();
-        if (cfg.localhost)
+        if (cfg.localhost) {
             $("#url_api").val(cfg.dev_default_query);
+        }
     }
 });

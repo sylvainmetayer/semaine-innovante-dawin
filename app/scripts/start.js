@@ -24,10 +24,8 @@ $startButton.click(function () {
     $('#title-test').hide();
     $startButton.hide();
     $('#cardiacRythmAtStart').hide();
-    results.rest.time = getStringDate(new Date());
     $('#actualTest').hide();
     $('#testRuffier').show();
-    $('#actualTest').hide();
     $('#afterTest_1').hide();
 
     startInterval = setInterval(function () {
@@ -35,6 +33,7 @@ $startButton.click(function () {
         var timerValue = parseInt(timer.text());
         timer.text(timerValue - 1);
         if (timerValue === 0) {
+            results.rest.time = new Date();
             var startTime = new Date().getTime();
             $('#countDown1').hide();
             $('#title-begin-test').hide();
@@ -48,7 +47,7 @@ $startButton.click(function () {
 });
 
 
-$('#endExerciseTmp').click(function(){
+$('#endExercise').click(function () {
 
     clearInterval(startInterval);
     clearInterval(exerciseInterval);
@@ -56,49 +55,21 @@ $('#endExerciseTmp').click(function(){
     $('#afterTest').hide();
     $('#afterTest_1').show();
 
-    var cpt = 0;
-    var getRequiredDateInterval = setInterval(function(){
-        cpt = cpt+1;
-        if(cpt == 15){
-            F1_date = new Date().getTime();
+    var endTime = new Date();
 
-        }
-        else if(cpt == 75){
-            F2_date = new Date().getTime();
-            $('#afterTest').show();
-            $('#afterTest_1').hide();
-
-        }
-        else if(cpt >= 76){
-            clearInterval(getRequiredDateInterval);
-        }
-    }, 1000)
-})
-/*
-$('#endExercise').click(function(){
-    
-    clearInterval(startInterval);
-    clearInterval(exerciseInterval);
-    $('#actualTest').hide();
-    $('#afterTest').show();
-
-    var cpt = 0;
-    var getRequiredDateInterval = setInterval(function () {
-        cpt = cpt + 1;
-        if (cpt === 15) {
-            results.after_effort.time = getStringDate(new Date());
-        }
-        else if(cpt == 75){
-            F2_date = new Date().getTime();
-
-        }
-        else if (cpt >= 76) {
-            alert("Veuillez synchronisez votre fitbit s'il ne se trouve pas enc synchro auto, et veuillez patienter jusqu'à 5min pour obtenir les résultats.");
-            [results.rest, results.after_effort, results.after_effort_and_rest].forEach(function (e) {
-                getHR_atDate(e.time, e);
-                console.log(e);
-            });
-            clearInterval(getRequiredDateInterval);
-        }
-    }, 1000) 
-}) */
+    $("#submitEmail").click(function () {
+        var email = $("#email").val();
+        console.log(email);
+        var form = {
+            "email": email,
+            "startTime": getStringDate(results.rest.time),
+            "endTime": getStringDate(endTime),
+            "userID": cfg.user_id
+        };
+        console.log(form);
+        API.request("email", "addToCron").form(form).send(function (json) {
+            console.log(json);
+            a = json;
+        })
+    });
+});

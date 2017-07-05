@@ -25,42 +25,59 @@
         <div id="testRuffier">
 
             <div class="col-lg-12 text-vertical-center">
-                <h1 class="title-font" id="title-begin-test"> Et c'est partis !</h1><br><br>
+                <h1 class="title-font" id="title-begin-test"> Et c'est parti !</h1><br><br>
                 <div id="countDown1">
-                    <p class="lead-ruffier">Préparez vous à réaliser 30 flexions complètes, bras tendus, en 45 secondes. <br>
-                        Le test commencera dans <a id="timerBeforeStart">10 </a> secondes</p>
+                    <p class="lead-ruffier">
+                        Préparez vous à réaliser 30 flexions complètes, bras tendus, en 45 secondes.
+                        <br>
+                        Le test commencera dans <a id="timerBeforeStart">10 </a> secondes
+                    </p>
                 </div>
                 <div id="actualTest">
-                    <p class="lead-ruffier">Veuillez réaliser 30 flexions complètes,<br> bras tendus, en 45 secondes.<br> Appuyez sur le bouton une fois le test terminé.</p>
-                    <p class="lead-ruffier">Votre temps actuel est de <a id="testTimer">0</a> secondes</p>
-                    <button id="endExerciseTmp" class="btn btn-dark btn-lg">J'ai fini l'exercice</button>
+                    <p class="lead-ruffier">
+                        Veuillez réaliser 30 flexions complètes,<br> bras tendus, en 45
+                        secondes.<br> Appuyez sur le bouton une fois le test terminé.
+                    </p>
+                    <p class="lead-ruffier">
+                        Votre temps actuel est de <a id="testTimer">0</a> secondes
+                    </p>
+                    <button id="endExercise" class="btn btn-dark btn-lg">J'ai fini l'exercice</button>
                 </div>
                 <div id="afterTest_1">
-                    <p class="lead-ruffier">Le test est terminé.<br></p>
-                        <p class="lead-ruffier"> Veuillez vous assoir ou vous mettre en position de repos pendant une minute, <br>
-                        afin de laisser votre coeur récupérer avant la seconde prise de pouls.</p>
-                </div>
-                <div id="afterTest">
-                    <p class="lead-ruffier">Veuillez, s'il vous plait, synchroniser votre fitbit avec votre application pour que nous récupérions les données du test, <br>
-                         et que nous puission réaliser quelques calculs basés sur votre rythme cardiaque.<br>
-                        Les résultats seront disponibles quelques minutes après que ce message se soit affiché.<br>
-                        Veuillez ne pas retirer votre appareil FitBit ou fermer cette page pendant cette durée.<br>
-                        </p>
+                    <p class="lead-ruffier">
+                        Le test est terminé.<br>
+                    </p>
+                    <p class="lead-ruffier">
+                        Veuillez vous asseoir ou vous mettre en position de repos pendant une
+                        minute, <br>
+                        afin de laisser votre coeur récupérer avant la seconde prise de pouls.
+                    </p>
+                    <p class="lead-ruffier">
+                        Veuillez, s'il vous plait, synchroniser votre fitbit pour que nous récupérions les données du
+                        test via l'API FitBit, <br>
+                        et que nous puission réaliser quelques calculs basés sur votre rythme cardiaque.<br>
+                        Les résultats vous seront envoyés par mail d'ici une dizaine de minutes.<br>
+                    </p>
+                    <label for="email">
+                        Entrer votre email pour recevoir vos résultats dès qu'il seront
+                        disponible
+                    </label>
+                    <input type="text" placeholder="Votre email" id="email"/>
+                    <button id="submitEmail">OK</button>
+
+                    <p id="previousTest" class="lead-ruffier">
+                        CI DESSOUS VOS TESTS PASSES
+                    </p>
                 </div>
             </div>
         </div>
-
     </div>
-
-
-
-
-<!-- build:js scripts/fitbit.js -->
-<script src="scripts/jquery.js"></script>
-<script src="scripts/api.js"></script>
-<script src="scripts/fitbit.js"></script>
-<script src="scripts/start.js"></script>
-<script src="scripts/track.js"></script>
-<!-- endbuild -->
+    <!-- build:js scripts/fitbit.js -->
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/fitbit.js"></script>
+    <script src="scripts/start.js"></script>
+    <script src="scripts/track.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
