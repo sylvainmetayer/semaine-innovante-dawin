@@ -27,6 +27,8 @@ $startButton.click(function () {
     results.rest.time = getStringDate(new Date());
     $('#actualTest').hide();
     $('#testRuffier').show();
+    $('#actualTest').hide();
+    $('#afterTest_1').hide();
 
     startInterval = setInterval(function () {
         var timer = $('#timerBeforeStart');
@@ -35,6 +37,7 @@ $startButton.click(function () {
         if (timerValue === 0) {
             var startTime = new Date().getTime();
             $('#countDown1').hide();
+            $('#title-begin-test').hide();
             $('#actualTest').show();
             exerciseInterval = setInterval(function () {
                 var actualTime = new Date().getTime();
@@ -44,8 +47,36 @@ $startButton.click(function () {
     }, 1000);
 });
 
-$('#endExercise').click(function () {
 
+$('#endExerciseTmp').click(function(){
+
+    clearInterval(startInterval);
+    clearInterval(exerciseInterval);
+    $('#actualTest').hide();
+    $('#afterTest').hide();
+    $('#afterTest_1').show();
+
+    var cpt = 0;
+    var getRequiredDateInterval = setInterval(function(){
+        cpt = cpt+1;
+        if(cpt == 15){
+            F1_date = new Date().getTime();
+
+        }
+        else if(cpt == 75){
+            F2_date = new Date().getTime();
+            $('#afterTest').show();
+            $('#afterTest_1').hide();
+
+        }
+        else if(cpt >= 76){
+            clearInterval(getRequiredDateInterval);
+        }
+    }, 1000)
+})
+/*
+$('#endExercise').click(function(){
+    
     clearInterval(startInterval);
     clearInterval(exerciseInterval);
     $('#actualTest').hide();
@@ -57,8 +88,9 @@ $('#endExercise').click(function () {
         if (cpt === 15) {
             results.after_effort.time = getStringDate(new Date());
         }
-        else if (cpt === 75) {
-            results.after_effort_and_rest.time = getStringDate(new Date());
+        else if(cpt == 75){
+            F2_date = new Date().getTime();
+
         }
         else if (cpt >= 76) {
             alert("Veuillez synchronisez votre fitbit s'il ne se trouve pas enc synchro auto, et veuillez patienter jusqu'à 5min pour obtenir les résultats.");
@@ -68,5 +100,5 @@ $('#endExercise').click(function () {
             });
             clearInterval(getRequiredDateInterval);
         }
-    }, 1000)
-});
+    }, 1000) 
+}) */

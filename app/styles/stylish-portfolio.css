@@ -200,6 +200,15 @@ hr.small {
     line-height: 1.4;
 }
 
+
+.lead-ruffier
+{
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
 ul {
     list-style: none;
 }
