@@ -18,6 +18,8 @@
 </head>
 <body>
 
+<h1>Notre API</h1>
+<input type="text" placeholder="Controller/action" id="controller_action"/>
 <textarea cols="100" rows="20" id="form">{
     "id_user_fitbit":"id_user_fitbit",
     "first_hr": 100,
@@ -26,15 +28,65 @@
     "third_hr": 40
     }</textarea>
 <button id="sub">Get</button>
-
 <pre id="result"></pre>
 
+<hr/>
+<h1>API FITBIT</h1>
+<p id="test_res"></p>
+<input type="text" contenteditable="true" id="url_api"/>
+<button id="sub_api">Get</button>
+<pre id="result_api"></pre>
+
+
 <script type="text/javascript">
+
+    // DEV
+    function syntaxHighlight(json) {
+        if (typeof json !== 'string') {
+            json = JSON.stringify(json, undefined, 2);
+        }
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+
+    function getData(url) {
+        console.log(url);
+        queryFitBit(url, "GET", fitbitAccessToken, _callbackLogData);
+    }
+
+    function _callbackLogData(jsonData) {
+        console.log(jsonData);
+        $("#result_api").html(syntaxHighlight(jsonData));
+    }
+
+    $('#sub_api').click(function () {
+        var url = $('#url_api').val();
+        getData(url);
+    });
+
+    // END DEV
+
     $('#sub').click(function () {
         API.url = 'http://localhost:8080/index.php';
 
+        var controller = $("#controller_action").val().split("/")[0];
+        var action = $("#controller_action").val().split("/")[1];
         var form = JSON.parse($('#form').val());
-        var q = API.request("result", "insertResult").form(form);
+        var q = API.request(controller, action).form(form);
 
         q.send(function (json) {
             $("#result").html(syntaxHighlight(json));

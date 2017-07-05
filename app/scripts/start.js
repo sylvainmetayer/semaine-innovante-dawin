@@ -1,9 +1,4 @@
 $(document).ready(function () {
-    $('#sub').click(function () {
-        var url = $('#url_api').val();
-        getData(url);
-    });
-
     var startButton = $('#startRuffier');
     startButton.click(function () {
         startButton.hide();
