@@ -1,7 +1,8 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
-header('Content-Type: application/json');
+
+header("Content-type: application/json; charset=UTF-8;");
 
 function __autoload($className)
 {

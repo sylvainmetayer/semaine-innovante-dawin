@@ -42,13 +42,28 @@ var API = API || {};
 		return string;
 	}
 
+	function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 	function request(callback, post, get) {
 		var xhr = getXMLHttpRequest();
 
 
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-				callback(xhr.responseText);
+				var json = "";
+				try {
+			        json = JSON.parse(xhr.responseText);
+			        callback(json);
+			    } catch (e) {
+			    	console.log("Invalid JSON")
+			    }
 			}
 		};
 

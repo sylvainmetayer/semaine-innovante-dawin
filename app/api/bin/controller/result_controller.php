@@ -33,4 +33,16 @@ class result_controller extends Controller
         $affected_rows = $stmt->rowCount();
         return ["affected_rows" => $affected_rows];
     }
+
+
+    public function  selectResult() {
+        $id = $this->get("id_user_fitbit");
+
+        $query = "SELECT * FROM results WHERE `id_user_fitbit` = ? ;";
+        $stmt = $this->getDb()->prepare($query);
+        $stmt->execute(array($id));
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }

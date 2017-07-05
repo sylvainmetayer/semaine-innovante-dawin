@@ -15,11 +15,21 @@
     <script src="scripts/api.js"></script>
     <!-- endbuild -->
 
+    <style type="text/css">
+        pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+
+    </style>
+
 </head>
 <body>
-
+<div>
 <h1>Notre API</h1>
-<input type="text" placeholder="Controller/action" id="controller_action"/>
+<input type="text" placeholder="Controller/action" id="controller_action" value="result/insertResult"/>
 <textarea cols="100" rows="20" id="form">{
     "id_user_fitbit":"id_user_fitbit",
     "first_hr": 100,
@@ -27,15 +37,18 @@
     "second_hr": 20,
     "third_hr": 40
     }</textarea>
-<button id="sub">Get</button>
-<pre id="result"></pre>
+    <button id="sub">Get</button>
+    <pre id="result"></pre>
+</div>
 
-<hr/>
+<div>
 <h1>API FITBIT</h1>
 <p id="test_res"></p>
 <input type="text" contenteditable="true" id="url_api"/>
 <button id="sub_api">Get</button>
 <pre id="result_api"></pre>
+
+</div>
 
 
 <script type="text/javascript">
@@ -89,6 +102,7 @@
         var q = API.request(controller, action).form(form);
 
         q.send(function (json) {
+            console.log(json);
             $("#result").html(syntaxHighlight(json));
         });
     });
