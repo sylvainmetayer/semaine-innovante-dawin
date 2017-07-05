@@ -60,10 +60,11 @@ var API = API || {};
 				var json = "";
 				try {
 			        json = JSON.parse(xhr.responseText);
-			        callback(json);
 			    } catch (e) {
 			    	console.log("Invalid JSON")
 			    }
+
+			    callback(json);
 			}
 		};
 
