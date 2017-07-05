@@ -1,38 +1,61 @@
-$(document).ready(function () {
-    var startButton = $('#startRuffier');
-    startButton.click(function () {
-        startButton.hide();
-        $('#cardiacRythmAtStart').show();
-    });
+var shallContinue = true
+var F0;
+var F1;
+var F2;
+var F0_date;
+var F1_date;
+var F2_date;
+var startButton = $('#startRuffier');
+var startInterval;
+var exerciseInterval;
 
-    var shallContinue = true;
+startButton.click(function(){
+    startButton.hide();
+    F0_date = new Date().getDate();
+    $('#cardiacRythmAtStart').hide();
+    $('#testRuffier').show();
+    $('#actualTest').hide();
 
-    $('#endExercise').click(function () {
-        shallContinue = false;
-    });
+    startInterval = setInterval(function(){
+        var timer = $('#timerBeforeStart');
+        var timerValue = parseInt(timer.text());
+        timer.text(timerValue - 1);
+        if(timerValue == 0){
+            var startTime = new Date().getTime();
+            $('#countDown1').hide();
+            $('#actualTest').show();
+            exerciseInterval = setInterval(function(){
+                var actualTime = new Date().getTime();
+                $('#testTimer').text(Math.floor((actualTime - startTime)/1000));
+            }, 1000)
+        }
+    }, 1000);
+})
 
-    $('#validate1').click(function () {
-        $('#cardiacRythmAtStart').hide();
-        $('#testRuffier').show();
-        $('#actualTest').hide();
+$('#validate1').click(function(){
+    
+})
 
-        setInterval(function () {
-            var timer = $('#timerBeforeStart');
-            var timerValue = parseInt(timer.text());
-            timer.text(timerValue - 1);
-            if (timerValue === 0) {
-                clearInterval();
-                var startTime = new Date().getTime();
-                $('#countDown1').hide();
-                $('#actualTest').show();
-                setInterval(function () {
-                    var actualTime = new Date().getTime();
-                    $('#testTimer').text(Math.floor((actualTime - startTime) / 1000));
-                    if (!shallContinue)
-                        clearInterval();
-                }, 1000)
-            }
-        }, 1000);
-    });
+$('#endExercise').click(function(){
+    
+    clearInterval(startInterval);
+    clearInterval(exerciseInterval);
+    $('#actualTest').hide();
+    $('#afterTest').show();
 
-});
+    var cpt = 0;
+    var getRequiredDateInterval = setInterval(function(){
+        cpt = cpt+1;
+        if(cpt == 15){
+            F1_date = new Date().getDate();
+            alert(F1_date);
+        }
+        else if(cpt == 75){
+            F2_date = new Date().getDate();
+            alert(F2_date);
+        }
+        else if(cpt >= 76){
+            clearInterval(getRequiredDateInterval);
+        }
+    }, 1000) 
+})
