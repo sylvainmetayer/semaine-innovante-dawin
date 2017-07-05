@@ -11,7 +11,7 @@ var exerciseInterval;
 
 startButton.click(function(){
     startButton.hide();
-    F0_date = new Date().getDate();
+    F0_date = new Date().getTime();
     $('#cardiacRythmAtStart').hide();
     $('#testRuffier').show();
     $('#actualTest').hide();
@@ -43,11 +43,11 @@ $('#endExercise').click(function(){
     var getRequiredDateInterval = setInterval(function(){
         cpt = cpt+1;
         if(cpt == 15){
-            F1_date = new Date().getDate();
+            F1_date = new Date().getTime();
             alert(F1_date);
         }
         else if(cpt == 75){
-            F2_date = new Date().getDate();
+            F2_date = new Date().getTime();
             alert(F2_date);
         }
         else if(cpt >= 76){
