@@ -5,5 +5,14 @@ return array(
     "db_host" => "",
     "db_user" => "",
     "db_password" => "",
-    "db_debug" => false,
+    "db_debug" => true,
+    "api_base_url" => "https://api.fitbit.com/",
+    "minutes_cron" => 12,
+    "mail_debug" => 0, // 0 for production, 2 otherwise,
+    "mail_host" => "",
+    "mail_port_smtp" => 587,
+    "mail_user" => "",
+    "mail_password" => "",
+    "mail_from" => "",
+    "mail_from_name" => "DAWIN - Fitbit"
 );
