@@ -46,7 +46,6 @@ $startButton.click(function () {
     }, 1000);
 });
 
-
 $('#endExercise').click(function () {
 
     clearInterval(startInterval);
@@ -57,6 +56,8 @@ $('#endExercise').click(function () {
 
     var endTime = new Date();
 
+    // TODO Here we need to call the API to get previous results
+
     $("#submitEmail").click(function () {
         var email = $("#email").val();
         console.log(email);
@@ -64,12 +65,13 @@ $('#endExercise').click(function () {
             "email": email,
             "startTime": getStringDate(results.rest.time),
             "endTime": getStringDate(endTime),
-            "userID": cfg.user_id
+            "userID": cfg.user_id,
+            "token": fitbitAccessToken
         };
         console.log(form);
         API.request("email", "addToCron").form(form).send(function (json) {
             console.log(json);
-            a = json;
+            alert("Vous recevrez bientôt un email contenant vos résultats. Pourquoi ne pas consulter vos précédents résultats (si vous avez déjà effectué le test auparavant) en attendant ?");
         })
     });
 });

@@ -23,6 +23,7 @@ class email_controller extends Controller
         $email = $this->get("email");
         $str_startDate = $this->get("startTime");
         $str_endTime = $this->get("endTime");
+        $token = $this->get("token");
 
         $startDate = new \DateTime($str_startDate);
         $endDate = new \DateTime($str_endTime);
@@ -35,9 +36,9 @@ class email_controller extends Controller
 
         $userId = $this->get("userID");
 
-        $query = "INSERT INTO cron (`user_id`,`email`,`start`,`endAfter15s`,`endAfter75s`) VALUES (?,?,?,?,?);";
+        $query = "INSERT INTO cron (`user_id`,`email`,`start`,`endAfter15s`,`endAfter75s`,`token`) VALUES (?,?,?,?,?,?);";
         $stmt = $this->getDb()->prepare($query);
-        $stmt->execute(array($userId, $email, $startDate->format("Y-m-d H:i:s"), $endDate_plus_15->format("Y-m-d H:i:s"), $endDate_plus_75->format("Y-m-d H:i:s")));
+        $stmt->execute(array($userId, $email, $startDate->format("Y-m-d H:i:s"), $endDate_plus_15->format("Y-m-d H:i:s"), $endDate_plus_75->format("Y-m-d H:i:s"), $token));
         $affected_rows = $stmt->rowCount();
         return ["affected_rows" => $affected_rows];
     }

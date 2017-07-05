@@ -24,6 +24,12 @@ class result_controller extends Controller
         
         $query = "INSERT INTO results (`id_user_fitbit`,`date`,`first_hr`,`second_hr`,`third_hr`) VALUES (?,?,?,?,?);";
 
+        $id = $this->get("id_user_fitbit");
+        $firstHR = $this->get("first_hr");
+        $second_hr = $this->get("second_hr");
+        $third_hr = $this->get("third_hr");
+        $date = $this->get("date");
+
         $stmt = $this->getDb()->prepare($query);
         $stmt->execute(array($id, $date, $firstHR, $second_hr, $third_hr));
         $affected_rows = $stmt->rowCount();
