@@ -45,11 +45,11 @@ $('#endExercise').click(function(){
         cpt = cpt+1;
         if(cpt == 15){
             F1_date = new Date().getTime();
-            alert(F1_date);
+
         }
         else if(cpt == 75){
             F2_date = new Date().getTime();
-            alert(F2_date);
+          
         }
         else if(cpt >= 76){
             clearInterval(getRequiredDateInterval);
