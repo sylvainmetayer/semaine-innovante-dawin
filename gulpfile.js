@@ -35,6 +35,10 @@ gulp.task("font-awesome", () => {
     return gulp.src("app/font-awesome/**/*").pipe(gulp.dest("dist/font-awesome"));
 });
 
+gulp.task("fonts", () => {
+    return gulp.src("app/fonts/**/*").pipe(gulp.dest("dist/fonts"));
+});
+
 gulp.task("extras", () => {
     return gulp.src(["./app/robots.txt", "./app/config.json"])
         .pipe(gulp.dest("dist/"));
@@ -94,7 +98,7 @@ gulp.task('serve:dist', ['default'], () => {
     });
 });
 
-gulp.task('build', ['html', 'images', "extras", "api", "font-awesome"], () => {
+gulp.task('build', ['html', 'images', "extras", "api", "font-awesome", "fonts"], () => {
     return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
