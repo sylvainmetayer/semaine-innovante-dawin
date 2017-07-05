@@ -26,6 +26,14 @@ function getFitbitProfileId() {
     queryFitBit(url, "GET", fitbitAccessToken, _callbackProfileID);
 }
 
+function getHR_atDate(hour) {
+    const url = cfg.base_url + "1/user/-/activities/heart/date/today/1d/1sec/time/05:50/05:51.json";
+    cfg.hour = hour;
+    queryFitBit(url, "GET", fitbitAccessToken, function (data) {
+        _callbackHR_atTime(data, hour);
+    })
+}
+
 function queryFitBit(url, type = "GET", token, callback) {
     $.ajax({
         type: type,
@@ -42,6 +50,40 @@ function queryFitBit(url, type = "GET", token, callback) {
 
 function _callbackProfileID(data) {
     cfg.user_id = data.user.encodedId;
+}
+
+function _callbackHR_atTime(data, hour) {
+    var heart_rates;
+    heart_rates = data["activities-heart-intraday"].dataset;
+    var second_objective = parseInt(hour.split(":")[2]);
+    var minDiff = 60;
+    var value = "";
+
+    heart_rates.forEach(function (e) {
+        var tmp_sec = parseInt(e.time.split(":")[2]);
+        if (tmp_sec > second_objective) {
+            if (tmp_sec - second_objective < minDiff) {
+                minDiff = tmp_sec - second_objective;
+                value = e.time;
+            }
+        } else {
+            if (second_objective - tmp_sec < minDiff) {
+                minDiff = second_objective - tmp_sec;
+                value = e.time;
+            }
+        }
+    });
+
+    console.log("The data is " + value);
+    console.log(findByHour(value, heart_rates));
+}
+
+function findByHour(hour, array) {
+    function seuil(element) {
+        return element.time === hour;
+    }
+
+    return array.find(seuil);
 }
 
 var fitbitAccessToken;
