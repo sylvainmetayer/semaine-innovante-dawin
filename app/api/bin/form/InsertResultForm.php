@@ -21,7 +21,7 @@ class InsertResultForm extends SelectResultForm
     public function build() {
 	    parent::build();
 
-        $this->addField( new Field('thedate') )
+        $this->addField( new Field('date') )
             ->addValidator(new NotNullValidator("Date not null"))
             ->addValidator(new DateTimeValidator("Format de la date invalide", "d-m-Y H:i:s"));
 

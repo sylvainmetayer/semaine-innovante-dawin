@@ -29,8 +29,8 @@ class result_controller extends Controller
 
         if($form->isValid($this)) {
 
-            $query = "INSERT INTO results (id_user_fitbit,thedate,first_hr,second_hr,third_hr) 
-                      VALUES (:id_user_fitbit,:thedate,:first_hr,:second_hr,:third_hr);";
+            $query = "INSERT INTO results (id_user_fitbit,`date`,first_hr,second_hr,third_hr) 
+                      VALUES (:id_user_fitbit,:date,:first_hr,:second_hr,:third_hr);";
 
             $stmt = $this->getDb()->prepare($query);
             $stmt->execute($form->getValues());
