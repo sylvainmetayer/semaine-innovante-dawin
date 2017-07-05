@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Fitbit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/styleRuffier.css">
+    <!-- endbuild -->
+
+    <!-- build:js scripts/jquery.js -->
+    <script src="scripts/jquery.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/fitbit.js"></script>
+    <!-- endbuild -->
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>google.charts.load('current', {'packages': ['line']});</script>
+
+</head>
+<body>
+
+<button id="startRuffier">Commencer le test de Ruffier</button>
+
+<div id="testRuffier">
+    <div id="countDown1">
+        <h2>Réalisez 9999 pompes en 45 secondes. Appuyez sur le bouton une fois terminé.</h2>
+        <h2>Préparez vous, le test commencera dans <a id="timerBeforeStart">1</a> secondes</h2>
+    </div>
+    <div id="actualTest">
+        <h2>Réalisez 9999 pompes en 45 secondes. Appuyez sur le bouton une fois terminé.</h2>
+        <h2>Votre temps actuel est de <a id="testTimer">0</a> secondes</h2>
+        <button id="endExercise">J'ai fini l'exercice</button>
+    </div>
+    <div id="afterTest">
+        <h2>Veuillez patientez, nous réalisons les calculs avec votre rythme cardiaque. Les résultats seront disponibles environ 2 minutes après que ce message se soit affiché. Veuillez ne pas enlever votre appareil FitBit ou fermer cette page pendant cette durée.</h2>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var shallContinue = true
+    var F0;
+    var F1;
+    var F2;
+    var F0_date;
+    var F1_date;
+    var F2_date;
+    var startButton = $('#startRuffier');
+    var startInterval;
+    var exerciseInterval;
+
+    startButton.click(function(){
+        startButton.hide();
+        F0_date = new Date().getDate();
+        $('#cardiacRythmAtStart').hide();
+        $('#testRuffier').show();
+        $('#actualTest').hide();
+
+        startInterval = setInterval(function(){
+            var timer = $('#timerBeforeStart');
+            var timerValue = parseInt(timer.text());
+            timer.text(timerValue - 1);
+            if(timerValue == 0){
+                var startTime = new Date().getTime();
+                $('#countDown1').hide();
+                $('#actualTest').show();
+                exerciseInterval = setInterval(function(){
+                    var actualTime = new Date().getTime();
+                    $('#testTimer').text(Math.floor((actualTime - startTime)/1000));
+                }, 1000)
+            }
+        }, 1000);
+    })
+
+    $('#validate1').click(function(){
+        
+    })
+
+    $('#endExercise').click(function(){
+        
+        clearInterval(startInterval);
+        clearInterval(exerciseInterval);
+        $('#actualTest').hide();
+        $('#afterTest').show();
+
+        var cpt = 0;
+        var getRequiredDateInterval = setInterval(function(){
+            cpt = cpt+1;
+            if(cpt == 15){
+                F1_date = new Date().getDate();
+                alert(F1_date);
+            }
+            else if(cpt == 75){
+                F2_date = new Date().getDate();
+                alert(F2_date);
+            }
+            else if(cpt >= 76){
+                clearInterval(getRequiredDateInterval);
+            }
+        }, 1000) 
+    })
+</script>
+
+</body>
+</html>
