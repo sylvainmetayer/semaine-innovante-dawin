@@ -26,11 +26,20 @@ function getFitbitProfileId() {
     queryFitBit(url, "GET", fitbitAccessToken, _callbackProfileID);
 }
 
-function getHR_atDate(hour) {
-    const url = cfg.base_url + "1/user/-/activities/heart/date/today/1d/1sec/time/05:50/05:51.json";
+function getHR_atDate(hour, variable) {
+    var str_hour = parseInt(hour.split(":")[0]);
+    var str_hour_next = str_hour;
+    var str_min = parseInt(hour.split(":")[1]);
+    var str_min_next = str_min + 1;
+    if (str_min_next >= 60) {
+        str_min_next = 0;
+        str_hour_next += 1;
+    }
+    const hr_url = "1/user/-/activities/heart/date/today/1d/1sec/time/";
+    const url = cfg.base_url + hr_url + str_hour + ":" + str_min + "/" + str_hour_next + ":" + str_min_next + ".json";
     cfg.hour = hour;
     queryFitBit(url, "GET", fitbitAccessToken, function (data) {
-        _callbackHR_atTime(data, hour);
+        _callbackHR_atTime(data, hour, variable);
     })
 }
 
@@ -52,15 +61,15 @@ function _callbackProfileID(data) {
     cfg.user_id = data.user.encodedId;
 }
 
-function _callbackHR_atTime(data, hour) {
+function _callbackHR_atTime(data, hour, variable) {
     var heart_rates;
     heart_rates = data["activities-heart-intraday"].dataset;
-    var second_objective = parseInt(hour.split(":")[2]);
-    var minDiff = 60;
+    var second_objective = parseInt(hour.split(":")[1]) * 60 + parseInt(hour.split(":")[2]);
+    var minDiff = 3600;
     var value = "";
 
     heart_rates.forEach(function (e) {
-        var tmp_sec = parseInt(e.time.split(":")[2]);
+        var tmp_sec = parseInt(e.time.split(":")[1]) * 60 + parseInt(e.time.split(":")[2]);
         if (tmp_sec > second_objective) {
             if (tmp_sec - second_objective < minDiff) {
                 minDiff = tmp_sec - second_objective;
@@ -74,8 +83,8 @@ function _callbackHR_atTime(data, hour) {
         }
     });
 
-    console.log("The data is " + value);
-    console.log(findByHour(value, heart_rates));
+    variable.hr = findByHour(value, heart_rates).value;
+    return variable;
 }
 
 function findByHour(hour, array) {
