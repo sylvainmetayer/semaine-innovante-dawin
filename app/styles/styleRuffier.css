@@ -7,6 +7,6 @@
 	display: inline-block;
 }
 
-#cardiacRythmAtStart, #testRuffier {
+#cardiacRythmAtStart, #testRuffier, #afterTest {
 	display: none;
 }
