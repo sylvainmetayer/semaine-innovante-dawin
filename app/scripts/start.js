@@ -32,10 +32,6 @@ startButton.click(function(){
     }, 1000);
 })
 
-$('#validate1').click(function(){
-    
-})
-
 $('#endExercise').click(function(){
     
     clearInterval(startInterval);
