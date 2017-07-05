@@ -1,0 +1,12 @@
+{
+    "name": "sylvainmetayer/dawin-fitbit",
+    "authors": [
+        {
+            "name": "Sylvain METAYER",
+            "email": "sylvain_metayer@outlook.fr"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^5.2"
+    }
+}

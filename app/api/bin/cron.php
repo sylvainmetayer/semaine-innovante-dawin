@@ -1,4 +1,6 @@
 <?php
+require __DIR__ . '/../vendor/autoload.php';
+
 $configs = include("../config.inc.php");
 $db = new PDO("mysql:host=" . $configs["db_host"] . "; dbname=" . $configs["db_name"], $configs["db_user"], $configs["db_password"],
     array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => $configs["db_debug"], PDO::ERRMODE_EXCEPTION => $configs["db_debug"]));
@@ -12,23 +14,30 @@ function getAllCron($db)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+$rows = getAllCron($db);
+if (count($rows) <= 0) {
+    echo "No data to process";
+    exit(0);
+}
+
 // 2 - For each result, check that end time + 15min is ok
-foreach (getAllCron($db) as $item) {
+foreach ($rows as $row) {
 
     $object = [
-        "id" => $item["id"],
-        "user_id" => $item["user_id"],
-        "email" => $item["email"],
-        "token" => $item["token"],
-        "start" => new DateTime($item["start"]),
-        "endAfter15s" => new DateTime($item["endAfter15s"]),
-        "endAfter75s" => new DateTime($item["endAfter75s"])
+        "id" => $row["id"],
+        "user_id" => $row["user_id"],
+        "email" => $row["email"],
+        "token" => $row["token"],
+        "start" => new DateTime($row["start"]),
+        "endAfter15s" => new DateTime($row["endAfter15s"]),
+        "endAfter75s" => new DateTime($row["endAfter75s"])
     ];
 
-    $twelve_min_later = new DateTime();
-    $twelve_min_later->setTimestamp($twelve_min_later->getTimestamp() + (60 * $configs["minutes_cron"]));
+    $twelve_min_after_test_ended = new DateTime();
+    $twelve_min_after_test_ended->setTimestamp($object["endAfter75s"]->getTimestamp() + (60 * $configs["minutes_cron"]));
 
-    if ($object["endAfter75s"]->getTimestamp() >= $twelve_min_later->getTimestamp()) {
+    $now = new DateTime();
+    if (intval($twelve_min_after_test_ended->getTimestamp()) - intval($now->getTimestamp()) > 0) {
         echo "No reach limit yet, do not process it<br/>";
     } else {
         echo "Process going on !<br/>";
@@ -66,6 +75,26 @@ function process_item($object, $configs, $db)
 
             print_r($mail_content);
 
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->SMTPDebug = $configs["mail_debug"];
+            $mail->Debugoutput = 'html';
+            $mail->Host = $configs["mail_host"];
+            $mail->Port = $configs["mail_port_smtp"];
+            $mail->SMTPSecure = 'tls';
+            $mail->SMTPAuth = true;
+            $mail->Username = $configs["mail_user"];
+            $mail->Password = $configs["mail_password"];
+            $mail->setFrom($configs["mail_from"], $configs["mail_from_name"]);
+            $mail->addAddress($object["email"]);
+            $mail->Subject = 'Vos résultats !';
+            $mail->msgHTML($mail_content);
+            $mail->AltBody = $mail_content;
+            if (!$mail->send()) {
+                echo "Mailer Error: " . $mail->ErrorInfo;
+            } else {
+                echo "Message sent!";
+            }
         }
     } else {
         // KO
