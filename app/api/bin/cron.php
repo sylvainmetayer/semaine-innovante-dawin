@@ -14,13 +14,14 @@ function getAllCron(PDO $db)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+echo "<br/>\n";
+
 $rows = getAllCron($db);
 if (count($rows) <= 0) {
     echo "No data to process\n";
     exit(0);
 }
 
-// 2 - For each result, check that end time + Xmin is ok
 foreach ($rows as $row) {
 
     $object = [
@@ -33,11 +34,13 @@ foreach ($rows as $row) {
         "endAfter75s" => new DateTime($row["endAfter75s"])
     ];
 
-    $twelve_min_after_test_ended = new DateTime();
-    $twelve_min_after_test_ended->setTimestamp($object["endAfter75s"]->getTimestamp() + (60 * $configs["minutes_cron"]));
+    $x_min_after_test_ended = new DateTime();
+    $x_min_after_test_ended->setTimestamp($object["endAfter75s"]->getTimestamp() + (60 * $configs["minutes_cron"]));
 
     $now = new DateTime();
-    if (intval($twelve_min_after_test_ended->getTimestamp()) - intval($now->getTimestamp()) > 0) {
+
+    echo "Current time is  " . $now->format('Y-m-d H:i:s') . ". Process will start at " . $x_min_after_test_ended->format('Y-m-d H:i:s') . "\n<br/>";
+    if (intval($x_min_after_test_ended->getTimestamp()) - intval($now->getTimestamp()) > 0) {
         echo "No reach limit yet, do not process it\n<br/>";
     } else {
         echo "Process going on !\n<br/>";
@@ -64,7 +67,11 @@ function process_item($object, $configs, PDO $db)
 
         if ($affected_rows != 0) {
             $ruffier_result = calculRuffier($hr_start, $hr_rest_15s, $hr_rest_75s);
-            $mail_content = include("mail.php");
+            ob_start();
+            include('mail.php');
+            $mail_content = ob_get_contents();
+            ob_end_clean();
+
             print_r($mail_content);
             return sendMail($object, $configs, $mail_content);
         }
