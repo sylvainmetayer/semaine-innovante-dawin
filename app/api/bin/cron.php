@@ -8,7 +8,8 @@ $db = new PDO("mysql:host=" . $configs["db_host"] . "; dbname=" . $configs["db_n
 
 function getAllCron(PDO $db)
 {
-    $query = "SELECT * FROM cron;";
+    // Do not process cron that failed a lot to avoid that we reach limit rate of the Fitbit API
+    $query = "SELECT * FROM cron WHERE nb_error < 10;";
     $stmt = $db->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,7 +32,8 @@ foreach ($rows as $row) {
         "token" => $row["token"],
         "start" => new DateTime($row["start"]),
         "endAfter15s" => new DateTime($row["endAfter15s"]),
-        "endAfter75s" => new DateTime($row["endAfter75s"])
+        "endAfter75s" => new DateTime($row["endAfter75s"]),
+        "nb_error" => $row["nb_error"]
     ];
 
     $x_min_after_test_ended = new DateTime();
@@ -50,9 +52,26 @@ foreach ($rows as $row) {
 
 function process_item($object, $configs, PDO $db)
 {
+
     $hr_start = query_date($object["start"], $configs, $object["token"]);
     $hr_rest_15s = query_date($object["endAfter15s"], $configs, $object["token"]);
     $hr_rest_75s = query_date($object["endAfter75s"], $configs, $object["token"]);
+
+    if ($hr_start == null || $hr_rest_15s == null || $hr_rest_75s == null) {
+        $query = "UPDATE cron SET nb_error = nb_error + 1 WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute(array($object["id"]));
+
+        // First error, let's remind user to sync fitbit
+        if (intval($object["nb_error"]) == 0) {
+            ob_start();
+            include('mailError.php');
+            $mail_content = ob_get_contents();
+            ob_end_clean();
+            sendMail($object, $configs, $mail_content);
+        }
+        return false;
+    }
 
     $query = "INSERT INTO results (`id_user_fitbit`,`date`,`first_hr`,`second_hr`,`third_hr`) VALUES (?,?,?,?,?);";
     $stmt = $db->prepare($query);
@@ -139,7 +158,21 @@ function query_date(DateTime $date_o, $configs, $token)
     $second_objective = intval($min * 60 + $sec);
     $secDiff = 3600;
     $value = "";
+
+    if (!array_key_exists("activities-heart-intraday", $result)) {
+        return null;
+    }
+
+    if (!array_key_exists("dataset", $result["activities-heart-intraday"])) {
+        return null;
+    }
+
     $dataset = $result["activities-heart-intraday"]["dataset"];
+
+    if ($dataset == null) {
+        return null;
+    }
+
     foreach ($dataset as $item) {
         $tmp = explode(":", $item["time"]);
         $tmp_sec = intval($tmp[1]) * 60 + intval($tmp[2]);
