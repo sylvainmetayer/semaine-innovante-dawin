@@ -7,8 +7,10 @@ toastr.options.closeButton = true;
 toastr.options.timeOut = 5000;
 toastr.options.extendedTimeOut = 10000;
 
-function getStringDate(date) {
-    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+function getStringDate(d) {
+    return  ("00" + d.getHours()).slice(-2) + ":" + 
+    ("00" + d.getMinutes()).slice(-2) + ":" + 
+    ("00" + d.getSeconds()).slice(-2);    
 }
 
 $startButton.click(function () {
