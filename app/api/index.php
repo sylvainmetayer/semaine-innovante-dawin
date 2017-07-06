@@ -4,8 +4,7 @@ header("Access-Control-Allow-Origin: *");
 
 header("Content-type: application/json; charset=UTF-8;");
 
-function __autoload($className)
-{
+function __autoload($className) {
     $className = str_replace('\\', '/', $className);
     require_once 'bin/' . $className . '.php';
 }

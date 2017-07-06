@@ -7,7 +7,7 @@ namespace lib;
 */
 abstract class Validator
 {
-	private $msg;
+	protected $msg;
 	
 	public function __construct($msg) {
 		$this->msg = $msg;
