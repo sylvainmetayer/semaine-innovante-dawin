@@ -29,11 +29,16 @@ class result_controller extends Controller
 
         if($form->isValid($this)) {
 
+            $values = $form->getValues();
+            $date = new \DateTime($values['date']);
+            $values['date'] = $date->format("Y-m-d H:i:s");
+
+
             $query = "INSERT INTO results (id_user_fitbit,`date`,first_hr,second_hr,third_hr) 
                       VALUES (:id_user_fitbit,:date,:first_hr,:second_hr,:third_hr);";
 
             $stmt = $this->getDb()->prepare($query);
-            $stmt->execute($form->getValues());
+            $stmt->execute($values);
 
             $result = $form->getValues();
 
