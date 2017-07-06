@@ -57,11 +57,11 @@
                         <ul style="font-size: 16px;
                                    font-weight: normal;
                                    margin-bottom: 20px;">
-                            <li>Indice compris entre 0 et 5 : très bon</li>
+                            <li>Indice compris entre 0 et 5 : tres bon</li>
                             <li>Indice compris entre 5 et 10 : bon</li>
                             <li>Indice compris entre 10 et 15 : moyen</li>
-                            <li>Indice compris entre 15 et 20 : faible (N'hésitez pas à aller voir un profesisonnel de
-                                santé)
+                            <li>Indice compris entre 15 et 20 : faible (N'hesitez pas à aller voir un professionnel de
+                                sante)
                             </li>
                         </ul>
                         <p style="font-size: 16px;
@@ -69,7 +69,7 @@
                                   margin-bottom: 20px;">En vous souhaitant une tres bonne journee</p>
                         <p style="font-size: 16px;
                                   font-weight: normal;
-                                  margin-bottom: 20px;"><em>– L'equipe Dawin & Fitbit</em></p>
+                                  margin-bottom: 20px;">L'equipe Dawin & Fitbit</p>
                         <table>
                             <tr>
                                 <td align="center">
@@ -104,7 +104,7 @@
                                           font-size: 14px;">Envoye par <a href="mailto:dev@sylvainmetayer.fr" style=" color: #888;
                                                                                                   text-decoration: none;
                                                                                                   font-weight: bold;">
-                                Dawin & Fitbit</a>, Département Informatique, IUT de Bordeaux, Rue du Naudet, 33170,
+                                Dawin & Fitbit</a>, Departement Informatique, IUT de Bordeaux, Rue du Naudet, 33170,
                             Gradignan</p>
 
                     </td>
