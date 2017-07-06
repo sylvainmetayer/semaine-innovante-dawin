@@ -122,7 +122,7 @@ function sendMail($object, $configs, $mail_content)
     $mail->Password = $configs["mail_password"];
     $mail->setFrom($configs["mail_from"], $configs["mail_from_name"]);
     $mail->addAddress($object["email"]);
-    $mail->Subject = 'Vos résultats !';
+    $mail->Subject = 'Vos resultats !';
     $mail->msgHTML($mail_content);
     $mail->AltBody = $mail_content;
     if (!$mail->send()) {

@@ -41,7 +41,7 @@
                         <p style="font-size: 16px;
                                   font-weight: normal;
                                   margin-bottom: 20px;">
-                            Pour acceder à vos resultats, vous devez synchroniser votre Fitbit. <br/>
+                            Pour acceder a vos resultats, vous devez synchroniser votre Fitbit. <br/>
                             Actuellement, il semblerait que cela ne soit pas le cas.
                         </p>
                         <p style="font-size: 16px;
