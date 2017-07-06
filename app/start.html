@@ -47,6 +47,7 @@
                         Préparez vous à réaliser 30 flexions complètes, bras tendus, en 45 secondes.
                         <br>
                         Le test commencera dans <a id="timerBeforeStart">10 </a> secondes
+                        Le test commencera dans <a style="color: #FFFFFF; text-decoration: none;"id="timerBeforeStart">10 </a> secondes
                     </p>
                 </div>
                 <div id="actualTest">
@@ -56,6 +57,7 @@
                     </p>
                     <p class="lead-ruffier">
                         Votre temps actuel est de <a id="testTimer">0</a> secondes
+                        Votre temps actuel est de <a id="testTimer" style="color: #FFFFFF; text-decoration: none;">0</a> secondes
                     </p>
                     <button id="endExercise" class="btn btn-dark btn-lg">J'ai fini l'exercice</button>
                 </div>
@@ -76,11 +78,15 @@
                     </p>
                     <div id="mail">
                         <label for="email">
+                    <div id="mail" class="lead-ruffier">
+                        <label for="email" class="lead-ruffier">
                             Entrer votre email pour recevoir vos résultats dès qu'il seront
                             disponible
                         </label>
                         <input type="text" placeholder="Votre email" id="email"/>
                         <button id="submitEmail">OK</button>
+                        <input type="text" style="color: #000000;" placeholder="Votre email" id="email"/>
+                        <button id="submitEmail" class="btn btn-info">OK</button>
                     </div>
                     <p class="lead-ruffier">
                     <ul id="previousTest"></ul>
