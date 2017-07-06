@@ -1,20 +1,11 @@
-var results = {
-    "rest": {
-        "time": "",
-        "hr": "",
-    },
-    "after_effort": {
-        "time": "",
-        "hr": "",
-    },
-    "after_effort_and_rest": {
-        "time": "",
-        "hr": ""
-    }
-};
+var startDate;
 var $startButton = $('#startRuffier');
 var startInterval;
 var exerciseInterval;
+
+toastr.options.closeButton = true;
+toastr.options.timeOut = 5000;
+toastr.options.extendedTimeOut = 10000;
 
 function getStringDate(date) {
     return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -27,13 +18,12 @@ $startButton.click(function () {
     $('#actualTest').hide();
     $('#testRuffier').show();
     $('#afterTest_1').hide();
-
-    startInterval = setInterval(function () {
+    toastr.startInterval = setInterval(function () {
         var timer = $('#timerBeforeStart');
         var timerValue = parseInt(timer.text());
         timer.text(timerValue - 1);
         if (timerValue === 0) {
-            results.rest.time = new Date();
+            startDate = new Date();
             var startTime = new Date().getTime();
             $('#countDown1').hide();
             $('#title-begin-test').hide();
@@ -58,35 +48,43 @@ $('#endExercise').click(function () {
     $('#afterTest').hide();
     $('#afterTest_1').show();
 
-    var endTime = new Date();
+    // TODO Timer de 80s + avertissement pour rafraichir Fitbit
 
-    API.request("result", "selectResult").form({
-        "id_user_fitbit": cfg.user_id
-    }).send(function (json) {
-        json.forEach(function (e) {
-            var li = $("<li>");
-            var text = "Le " + e.date + ", premier HR : " + e.first_hr;
-            text += ", 2ème HR :" + e.second_hr + " et 3ème HR : " + e.third_hr;
-            text += ". Cela vous donne un résultat de Ruffier de " + getRuffier(e.first_hr, e.second_hr, e.third_hr);
-            li.html(text);
-            $("#previousTest").append(li);
-        });
-    });
+    const endTime = new Date();
 
     $("#submitEmail").click(function () {
-        var email = $("#email").val();
-        console.log(email);
-        var form = {
+        const email = $("#email").val();
+        if (email === "") {
+            toastr.error("Votre email ne peut pas être vide !");
+            return;
+        }
+
+        const form = {
             "email": email,
-            "startTime": getStringDate(results.rest.time),
+            "startTime": getStringDate(startDate),
             "endTime": getStringDate(endTime),
             "userID": cfg.user_id,
             "token": fitbitAccessToken
         };
-        console.log(form);
+
         API.request("email", "addToCron").form(form).send(function (json) {
-            console.log(json);
-            alert("Vous recevrez bientôt un email contenant vos résultats. Pourquoi ne pas consulter vos précédents résultats (si vous avez déjà effectué le test auparavant) en attendant ?");
+            // TODO check if mail was correct
+            toastr.success('Vous recevrez bientôt un email contenant vos résultats.');
+            toastr.info("Vous pouvez consulter ci-dessous vos précédents résultats, si vous avez déjà effectué le test");
+            $("#mail").remove();
+
+            API.request("result", "selectResult").form({
+                "id_user_fitbit": cfg.user_id
+            }).send(function (json) {
+                json.forEach(function (e) {
+                    let li = $("<li>");
+                    let text = "Le " + e.date + ", premier HR : " + e.first_hr;
+                    text += ", 2ème HR :" + e.second_hr + " et 3ème HR : " + e.third_hr;
+                    text += ". Cela vous donne un résultat de Ruffier de " + getRuffier(e.first_hr, e.second_hr, e.third_hr);
+                    li.html(text);
+                    $("#previousTest").append(li);
+                });
+            });
         })
     });
 });

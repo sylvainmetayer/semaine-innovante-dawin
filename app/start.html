@@ -11,6 +11,7 @@
     <link href="styles/stylish-portfolio.css" rel="stylesheet">
     <link href="styles/round-about.css" rel="stylesheet">
     <link href="styles/font-awesome.min.css" rel="stylesheet">
+    <link href="styles/toastr.min.css" rel="stylesheet">
     <!-- endbuild -->
 
 </head>
@@ -58,15 +59,16 @@
                         et que nous puission réaliser quelques calculs basés sur votre rythme cardiaque.<br>
                         Les résultats vous seront envoyés par mail d'ici une dizaine de minutes.<br>
                     </p>
-                    <label for="email">
-                        Entrer votre email pour recevoir vos résultats dès qu'il seront
-                        disponible
-                    </label>
-                    <input type="text" placeholder="Votre email" id="email"/>
-                    <button id="submitEmail">OK</button>
-
+                    <div id="mail">
+                        <label for="email">
+                            Entrer votre email pour recevoir vos résultats dès qu'il seront
+                            disponible
+                        </label>
+                        <input type="text" placeholder="Votre email" id="email"/>
+                        <button id="submitEmail">OK</button>
+                    </div>
                     <p class="lead-ruffier">
-                        <ul id="previousTest"></ul>
+                    <ul id="previousTest"></ul>
                     </p>
                 </div>
             </div>
@@ -76,6 +78,7 @@
     <script src="scripts/jquery.js"></script>
     <script src="scripts/api.js"></script>
     <script src="scripts/fitbit.js"></script>
+    <script src="scripts/toastr.min.js"></script>
     <script src="scripts/start.js"></script>
     <script src="scripts/track.js"></script>
     <!-- endbuild -->
