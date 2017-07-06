@@ -60,7 +60,7 @@
                             <li>Indice compris entre 0 et 5 : tres bon</li>
                             <li>Indice compris entre 5 et 10 : bon</li>
                             <li>Indice compris entre 10 et 15 : moyen</li>
-                            <li>Indice compris entre 15 et 20 : faible (N'hesitez pas à aller voir un professionnel de
+                            <li>Indice compris entre 15 et 20 : faible (N'hesitez pas a aller voir un professionnel de
                                 sante)
                             </li>
                         </ul>
