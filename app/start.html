@@ -66,11 +66,11 @@
                         Le test est terminé.<br>
                     </p>
                     <p class="lead-ruffier">
-                        Veuillez vous asseoir ou vous mettre en position de repos pendant une
-                        minute, <br>
-                        afin de laisser votre coeur récupérer avant la seconde prise de pouls.
+                        Veuillez vous asseoir ou vous mettre en position de repos pendant <span
+                            id="rest-timer">60</span> secondes afin de laisser votre coeur récupérer avant la seconde prise de
+                        pouls.
                     </p>
-                    <p class="lead-ruffier">
+                    <p class="lead-ruffier hide" id="sync-fitbit">
                         Veuillez, s'il vous plait, synchroniser votre fitbit pour que nous récupérions les données du
                         test via l'API FitBit, <br>
                         et que nous puission réaliser quelques calculs basés sur votre rythme cardiaque.<br>
@@ -83,7 +83,7 @@
                             Entrer votre email pour recevoir vos résultats dès qu'il seront
                             disponible
                         </label>
-                        <input type="text" placeholder="Votre email" id="email"/>
+                        <input type="email" required="required" placeholder="Votre email" id="email"/>
                         <button id="submitEmail">OK</button>
                         <input type="text" style="color: #000000;" placeholder="Votre email" id="email"/>
                         <button id="submitEmail" class="btn btn-info">OK</button>

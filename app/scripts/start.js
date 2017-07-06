@@ -2,13 +2,16 @@ var startDate;
 var $startButton = $('#startRuffier');
 var startInterval;
 var exerciseInterval;
+var timerInterval;
 
 toastr.options.closeButton = true;
 toastr.options.timeOut = 5000;
 toastr.options.extendedTimeOut = 10000;
 
-function getStringDate(date) {
-    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+function getStringDate(d) {
+    return  ("00" + d.getHours()).slice(-2) + ":" + 
+    ("00" + d.getMinutes()).slice(-2) + ":" + 
+    ("00" + d.getSeconds()).slice(-2);    
 }
 
 $startButton.click(function () {
@@ -18,7 +21,7 @@ $startButton.click(function () {
     $('#actualTest').hide();
     $('#testRuffier').show();
     $('#afterTest_1').hide();
-    toastr.startInterval = setInterval(function () {
+    startInterval = setInterval(function () {
         var timer = $('#timerBeforeStart');
         var timerValue = parseInt(timer.text());
         timer.text(timerValue - 1);
@@ -48,7 +51,17 @@ $('#endExercise').click(function () {
     $('#afterTest').hide();
     $('#afterTest_1').show();
 
-    // TODO Timer de 80s + avertissement pour rafraichir Fitbit
+    timerInterval = setInterval(function () {
+        var timer = $('#rest-timer');
+        var timerValue = parseInt(timer.text());
+        timer.text(timerValue - 1);
+        if (timerValue <= 0) {
+            timer.text(0);
+            clearInterval(timerInterval);
+            $("#sync-fitbit").show();
+            toastr.warning("Pensez à synchroniser votre fitbit !");
+        }
+    }, 1000);
 
     const endTime = new Date();
 
