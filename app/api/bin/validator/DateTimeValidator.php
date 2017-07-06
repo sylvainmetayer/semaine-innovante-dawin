@@ -9,12 +9,17 @@ class DateTimeValidator extends Validator
 	private $format;
 	public function __construct($msg, $format) {
 		parent::__construct($msg);
-		$this->format = format;
+		$this->format = $format;
 	}
 	public function isValid($value) {
-		
-		$DateTime = \DateTime::createFromFormat($format, $date);
+
+		$dateTimeObj = \DateTime::createFromFormat($this->format, $value);
+
+        $dateErrors = \DateTime::getLastErrors();
+        $this->msg .= chr(10). implode($dateErrors['warnings'], chr(10));
+        $this->msg .= chr(10). implode($dateErrors['errors'], chr(10));
      
-        return ( $DateTime && $date == $DateTime->format($format) );
+        return empty($dateErrors['warning_count']) && empty($dateErrors['error_count']) &&
+               $dateTimeObj && $value == $dateTimeObj->format($this->format);
 	}
 }

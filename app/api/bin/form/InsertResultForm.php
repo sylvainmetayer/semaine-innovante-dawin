@@ -23,7 +23,7 @@ class InsertResultForm extends SelectResultForm
 
         $this->addField( new Field('date') )
             ->addValidator(new NotNullValidator("Date not null"))
-            ->addValidator(new DateTimeValidator("Format de la date invalide", "d-m-Y H:i:s"));
+            ->addValidator(new DateTimeValidator("Format de date invalide", "d-m-Y H:i"));
 
         $this->addField( new Field('first_hr') )
             ->addValidator(new NotNullValidator("Id fit not null"))
