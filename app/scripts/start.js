@@ -56,6 +56,7 @@ $('#endExercise').click(function () {
         var timerValue = parseInt(timer.text());
         timer.text(timerValue - 1);
         if (timerValue <= 0) {
+            $("#rest-text").hide();
             timer.text(0);
             clearInterval(timerInterval);
             $("#sync-fitbit").show();
