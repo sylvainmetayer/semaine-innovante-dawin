@@ -95,6 +95,7 @@ $('#endExercise').click(function () {
                     text += ", 2ème HR :" + e.second_hr + " et 3ème HR : " + e.third_hr;
                     text += ". Cela vous donne un résultat de Ruffier de " + getRuffier(e.first_hr, e.second_hr, e.third_hr);
                     li.html(text);
+                    $(li).addClass("lead-ruffier");
                     $("#previousTest").append(li);
                 });
             });
