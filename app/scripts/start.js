@@ -46,6 +46,10 @@ $startButton.click(function () {
     }, 1000);
 });
 
+function getRuffier(a, b, c) {
+    return (parseInt(a) + parseInt(b) + parseInt(c) - 200) / 10;
+}
+
 $('#endExercise').click(function () {
 
     clearInterval(startInterval);
@@ -56,7 +60,18 @@ $('#endExercise').click(function () {
 
     var endTime = new Date();
 
-    // TODO Here we need to call the API to get previous results
+    API.request("result", "selectResult").form({
+        "id_user_fitbit": cfg.user_id
+    }).send(function (json) {
+        json.forEach(function (e) {
+            var li = $("<li>");
+            var text = "Le " + e.date + ", premier HR : " + e.first_hr;
+            text += ", 2ème HR :" + e.second_hr + " et 3ème HR : " + e.third_hr;
+            text += ". Cela vous donne un résultat de Ruffier de " + getRuffier(e.first_hr, e.second_hr, e.third_hr);
+            li.html(text);
+            $("#previousTest").append(li);
+        });
+    });
 
     $("#submitEmail").click(function () {
         var email = $("#email").val();
