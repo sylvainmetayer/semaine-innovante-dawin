@@ -5,8 +5,8 @@ $configs = include(__DIR__ . "/../config.inc.php");
 $db = new PDO("mysql:host=" . $configs["db_host"] . "; dbname=" . $configs["db_name"], $configs["db_user"], $configs["db_password"],
     array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => $configs["db_debug"], PDO::ERRMODE_EXCEPTION => $configs["db_debug"]));
 
-// 1 - Get all results in cron table.
-function getAllCron($db)
+
+function getAllCron(PDO $db)
 {
     $query = "SELECT * FROM cron;";
     $stmt = $db->prepare($query);
@@ -16,11 +16,11 @@ function getAllCron($db)
 
 $rows = getAllCron($db);
 if (count($rows) <= 0) {
-    echo "No data to process";
+    echo "No data to process\n";
     exit(0);
 }
 
-// 2 - For each result, check that end time + 15min is ok
+// 2 - For each result, check that end time + Xmin is ok
 foreach ($rows as $row) {
 
     $object = [
@@ -38,16 +38,15 @@ foreach ($rows as $row) {
 
     $now = new DateTime();
     if (intval($twelve_min_after_test_ended->getTimestamp()) - intval($now->getTimestamp()) > 0) {
-        echo "No reach limit yet, do not process it<br/>";
+        echo "No reach limit yet, do not process it\n<br/>";
     } else {
-        echo "Process going on !<br/>";
+        echo "Process going on !\n<br/>";
         process_item($object, $configs, $db);
     }
 }
 
-function process_item($object, $configs, $db)
+function process_item($object, $configs, PDO $db)
 {
-
     $hr_start = query_date($object["start"], $configs, $object["token"]);
     $hr_rest_15s = query_date($object["endAfter15s"], $configs, $object["token"]);
     $hr_rest_75s = query_date($object["endAfter75s"], $configs, $object["token"]);
@@ -58,8 +57,6 @@ function process_item($object, $configs, $db)
     $affected_rows = $stmt->rowCount();
 
     if ($affected_rows != 0) {
-        // OK
-        // We now need to delete the record on cron
         $query = "DELETE FROM cron WHERE id = ?";
         $stmt = $db->prepare($query);
         $stmt->execute(array($object["id"]));
@@ -67,46 +64,52 @@ function process_item($object, $configs, $db)
 
         if ($affected_rows != 0) {
             $ruffier_result = calculRuffier($hr_start, $hr_rest_15s, $hr_rest_75s);
-
-            $mail_content = "Votre Résultat du " . $object["start"]->format("Y-m-d H:i:s") . " est le suivant";
-            $mail_content .= "<br/>Premier HR : " . $hr_start . ", 2eme : " . $hr_rest_15s . " & 3eme: " . $hr_rest_75s;
-            $mail_content .= "<br/> Résultat Ruffier : " . $ruffier_result;
-            $mail_content .= "<br/>Bye.";
-
+            $mail_content = include("mail.php");
             print_r($mail_content);
-
-            $mail = new PHPMailer();
-            $mail->isSMTP();
-            $mail->SMTPDebug = $configs["mail_debug"];
-            $mail->Debugoutput = 'html';
-            $mail->Host = $configs["mail_host"];
-            $mail->Port = $configs["mail_port_smtp"];
-            $mail->SMTPSecure = 'tls';
-            $mail->SMTPAuth = true;
-            $mail->Username = $configs["mail_user"];
-            $mail->Password = $configs["mail_password"];
-            $mail->setFrom($configs["mail_from"], $configs["mail_from_name"]);
-            $mail->addAddress($object["email"]);
-            $mail->Subject = 'Vos résultats !';
-            $mail->msgHTML($mail_content);
-            $mail->AltBody = $mail_content;
-            if (!$mail->send()) {
-                echo "Mailer Error: " . $mail->ErrorInfo;
-            } else {
-                echo "Message sent!";
-            }
+            return sendMail($object, $configs, $mail_content);
         }
-    } else {
-        // KO
-        echo "Error";
+    }
+
+    echo "Error while process item<br/>\n";
+    return false;
+}
+
+/**
+ * This me
+ * @param $object
+ * @param $configs
+ * @param
+ * $mail_content
+ * @return bool
+ */
+function sendMail($object, $configs, $mail_content)
+{
+    $mail = new PHPMailer();
+    $mail->isSMTP();
+    $mail->SMTPDebug = $configs["mail_debug"];
+    $mail->Debugoutput = 'html';
+    $mail->Host = $configs["mail_host"];
+    $mail->Port = $configs["mail_port_smtp"];
+    $mail->SMTPSecure = 'tls';
+    $mail->SMTPAuth = true;
+    $mail->Username = $configs["mail_user"];
+    $mail->Password = $configs["mail_password"];
+    $mail->setFrom($configs["mail_from"], $configs["mail_from_name"]);
+    $mail->addAddress($object["email"]);
+    $mail->Subject = 'Vos résultats !';
+    $mail->msgHTML($mail_content);
+    $mail->AltBody = $mail_content;
+    if (!$mail->send()) {
+        echo "Mailer Error: " . $mail->ErrorInfo;
         return false;
     }
+    echo "Message sent!";
+    return true;
 }
 
 function calculRuffier($start, $end, $after_rest)
 {
-
-    return 42;
+    return (intval($start) + intval($end) + intval($after_rest) - 200) / 10;
 }
 
 function query_date(DateTime $date_o, $configs, $token)
@@ -152,8 +155,12 @@ function query_date(DateTime $date_o, $configs, $token)
 
 }
 
-// 3 - If yes, let's grab results from fitbit api via curl
-
+/**
+ * Return the result of a query to an URL with an user token
+ * @param $url
+ * @param $token
+ * @return mixed
+ */
 function query($url, $token)
 {
     $cURL = curl_init();
