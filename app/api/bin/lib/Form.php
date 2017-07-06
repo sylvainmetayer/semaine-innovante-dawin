@@ -18,7 +18,11 @@ abstract class Form
 		$this->errors = [];
 	}
 
-	public function addField(Field $field) {
+    /**
+     * @param Field $field
+     * @return Field
+     */
+    public function addField(Field $field) {
 		$this->fields[$field->getName()] = $field;
 		return $field;
 	}

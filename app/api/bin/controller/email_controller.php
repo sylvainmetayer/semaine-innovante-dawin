@@ -3,6 +3,7 @@
 namespace controller;
 
 
+use form\AddToCronForm;
 use lib\Controller;
 
 class email_controller extends Controller
@@ -20,26 +21,31 @@ class email_controller extends Controller
 
     public function addToCron()
     {
-        $email = $this->get("email");
-        $str_startDate = $this->get("startTime");
-        $str_endTime = $this->get("endTime");
-        $token = $this->get("token");
+        $form = new AddToCronForm();
+        $form->build();
 
-        $startDate = new \DateTime($str_startDate);
-        $endDate = new \DateTime($str_endTime);
+        if($form->isValid($this)) {
 
-        $endDate_plus_15 = new \DateTime();
-        $endDate_plus_15->setTimestamp($endDate->getTimestamp() + 15);
+            $result = $form->getValues();
 
-        $endDate_plus_75 = new \DateTime();
-        $endDate_plus_75->setTimestamp($endDate->getTimestamp() + 75);
+            $date = date_create_from_format("H:i:s", $result['endTime']);
+            $result['startTime'] =  date_create_from_format("H:i:s", $result['endTime'])->format("Y-m-d H:i:s");
+            $result['endAfter15s'] = $date->add(new \DateInterval('PT15S'))->format("Y-m-d H:i:s");
+            $result['endAfter75s'] = $date->add(new \DateInterval('PT75S'))->format("Y-m-d H:i:s");
 
-        $userId = $this->get("userID");
+            unset($result['endTime']);
 
-        $query = "INSERT INTO cron (`user_id`,`email`,`start`,`endAfter15s`,`endAfter75s`,`token`) VALUES (?,?,?,?,?,?);";
-        $stmt = $this->getDb()->prepare($query);
-        $stmt->execute(array($userId, $email, $startDate->format("Y-m-d H:i:s"), $endDate_plus_15->format("Y-m-d H:i:s"), $endDate_plus_75->format("Y-m-d H:i:s"), $token));
-        $affected_rows = $stmt->rowCount();
-        return ["affected_rows" => $affected_rows];
+            $query = "INSERT INTO cron (user_id,email,start,endAfter15s,endAfter75s,token) 
+                      VALUES (:userID,:email,:startTime,:endAfter15s,:endAfter75s,:token);";
+
+            $stmt = $this->getDb()->prepare($query);
+            $stmt->execute($result);
+            $result['affected_rows'] = $stmt->rowCount();
+
+        } else {
+            $result = $form->getErrors();
+        }
+        
+        return $result;
     }
 }
