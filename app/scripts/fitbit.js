@@ -3,8 +3,6 @@ function authenticateUser() {
         fitbitAccessToken = cfg.dev_token;
     } else {
         if (!window.location.hash) {
-            alert("First, you need to connect your FitBit account");
-            // TODO Replace this alert with a modal window
             window.location.replace(cfg.auth_url);
         } else {
             var fragmentQueryParameters = {};
