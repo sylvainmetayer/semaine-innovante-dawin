@@ -9,9 +9,9 @@ toastr.options.timeOut = 5000;
 toastr.options.extendedTimeOut = 10000;
 
 function getStringDate(d) {
-    return  ("00" + d.getHours()).slice(-2) + ":" + 
-    ("00" + d.getMinutes()).slice(-2) + ":" + 
-    ("00" + d.getSeconds()).slice(-2);    
+    return ("00" + d.getHours()).slice(-2) + ":" +
+        ("00" + d.getMinutes()).slice(-2) + ":" +
+        ("00" + d.getSeconds()).slice(-2);
 }
 
 $startButton.click(function () {
@@ -59,7 +59,7 @@ $('#endExercise').click(function () {
             $("#rest-text").hide();
             timer.text(0);
             clearInterval(timerInterval);
-            $("#sync-fitbit").show();
+            $("#sync-fitbit").removeClass("hide");
             toastr.warning("Pensez à synchroniser votre fitbit !");
         }
     }, 1000);
