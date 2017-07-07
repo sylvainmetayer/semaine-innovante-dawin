@@ -1,5 +1,5 @@
-# semaine-innovante-dawin
-Dépôt pour la semaine innovante de la LP DAWIN
+# innovation-week-dawin
+Repository for the innovation week of LP DAWIN
 
 # Requirements
 
